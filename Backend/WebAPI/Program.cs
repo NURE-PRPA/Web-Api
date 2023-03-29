@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-string connectionString = builder.Configuration.GetConnectionString("TestDB:MySql");
+var connectionString = builder.Configuration.GetConnectionString("TestDb:MySql");
 
 builder.Services.AddControllers();
 builder.Services.AddDbContext<QuantEdDbContext>(options => options.UseMySQL(connectionString));
