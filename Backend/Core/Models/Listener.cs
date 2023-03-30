@@ -17,6 +17,6 @@ public class Listener
     public DateTime Date { get; set; }
     public dynamic GoogleId { get; set; }
     public string Password { get; set; }
-    public byte BanCout { get; set; }
+    public short BanCout { get; set; }
     public string Username { get; set; }
 }
