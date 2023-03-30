@@ -13,7 +13,7 @@ namespace DL
     {
         public QuantEdDbContext(DbContextOptions<QuantEdDbContext> options) : base(options)
         {
-
+            
         }
 
 

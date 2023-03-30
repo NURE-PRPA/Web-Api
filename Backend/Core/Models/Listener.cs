@@ -18,4 +18,5 @@ public class Listener
     public dynamic GoogleId { get; set; }
     public string Password { get; set; }
     public byte BanCout { get; set; }
+    public string Username { get; set; }
 }
