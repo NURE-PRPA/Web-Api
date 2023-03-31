@@ -17,5 +17,5 @@ public class Listener
     public DateTime Date { get; set; }
     public dynamic GoogleId { get; set; }
     public string Password { get; set; }
-    public bool IsBanned { get; set; }
+    public byte BanCount { get; set; }
 }
