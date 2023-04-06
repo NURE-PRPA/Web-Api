@@ -18,4 +18,6 @@ public class Listener
     public dynamic GoogleId { get; set; }
     public string Password { get; set; }
     public byte BanCount { get; set; }
+    public List<Ban> Bans { get; set; }
+    public List<Subscription> Subscriptions { get; set; }
 }

@@ -12,4 +12,5 @@ public class Organization
     public int Id { get; set; }
     public string Name { get; set; }
     public OrganizationType Type { get; set; }
+    public List<Lecturer> Lecturers { get; set; }
 }

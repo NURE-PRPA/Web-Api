@@ -14,5 +14,8 @@ public class Course
     public string Description { get; set; }
     public byte Difficulty { get; set; }
     public byte Price { get; set; }
-    public Topic Topic { get; set; }
+    public CourseTopic Topic { get; set; }
+    public Lecturer Lecturer { get; set; }
+    public List<Module> Modules { get; set; }
+    public List<Subscription> Subscriptions { get; set; }
 }
