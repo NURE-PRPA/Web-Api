@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Core.Models;
 
+//[NotMapped]
 public class UserAttempt
 {
     public int Id { get; set; }

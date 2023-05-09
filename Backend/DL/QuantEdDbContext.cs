@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Core.Models;
 using CourseM = Core.Models;
+using System.Diagnostics.Metrics;
+
 namespace DL
 {
     public class QuantEdDbContext : DbContext
@@ -18,20 +20,37 @@ namespace DL
         public DbSet<Question> Questions { get; set;}
         public DbSet<Subscription> Subscriptions { get; set;}
         public DbSet<Test> Tests { get; set;}
-        
+
+        public QuantEdDbContext()
+        {
+            
+        }
+
         public QuantEdDbContext(DbContextOptions<QuantEdDbContext> options) : base(options)
         {
             
         }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseMySQL("Server=34.118.57.162;Port=3306;Database=testdb;Uid=Sentinel;Pwd=sen24tinel;");
+            }
+        }
 
         //public DbSet<Course> Courses { get; set; }
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.Entity<Att>()
-        //        .HasOne(a => a.Test)
-        //        .WithMany(t => t.Atts)
-        //        .OnDelete(DeleteBehavior.Restrict);
-        //}
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Subscription>()
+            .HasOne(s => s.Certificate)
+            .WithOne(c => c.Subscription)
+            .HasForeignKey<Certificate>(s => s.Id);
+
+            modelBuilder.Entity<CourseModule>()
+            .HasOne(m => m.Test)
+            .WithOne(t => t.Module)
+            .HasForeignKey<Test>(m => m.Id);
+        }
     }
 }
