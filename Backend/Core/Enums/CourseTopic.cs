@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.Enums;
 
-public enum Topic
+public enum CourseTopic
 {
     Programming = 0,
     Mathematics = 1,

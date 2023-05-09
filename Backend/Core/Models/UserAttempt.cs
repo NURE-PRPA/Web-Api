@@ -10,4 +10,6 @@ public class UserAttempt
 {
     public int Id { get; set; }
     public byte Mark { get; set; }
+    public Subscription Subscription { get; set; }
+    public Test Test { get; set; }
 }

@@ -12,4 +12,5 @@ public class Feedback
     public string Comment { get; set; }
     public byte Stars { get; set; }
     public DateTime Date { get; set; }
+    public Subscription Subscription { get; set; }
 }
