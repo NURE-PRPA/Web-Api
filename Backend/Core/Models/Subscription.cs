@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,5 +16,6 @@ public class Subscription
     public Certificate Certificate { get; set; }
     public Course Course { get; set; }
     public List<Feedback> Feedbacks { get; set; }
-    public List<UserAttempt> UserAttempts { get; set; }
+    
+    [NotMapped] public List<UserAttempt> UserAttempts { get; set; }
 }

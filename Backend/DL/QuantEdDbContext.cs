@@ -1,16 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using static System.Net.Mime.MediaTypeNames;
-
+﻿using Microsoft.EntityFrameworkCore;
+using Core.Models;
+using CourseM = Core.Models;
 namespace DL
 {
     public class QuantEdDbContext : DbContext
     {
+        public DbSet<Administrator> Administrators { get; set; }
+        public DbSet<Answer> Answers { get; set; }
+        public DbSet<Ban> Bans { get; set; }
+        public DbSet<Certificate> Certificates { get; set; }
+        public DbSet<ContentContainer> Containers { get; set; }
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<Feedback> Feedbacks { get; set; }
+        public DbSet<Listener> Listeners { get; set;}
+        public DbSet<CourseModule> Modules { get; set;}
+        public DbSet<Organization> Organizations { get; set;}
+        public DbSet<Question> Questions { get; set;}
+        public DbSet<Subscription> Subscriptions { get; set;}
+        public DbSet<Test> Tests { get; set;}
+        
         public QuantEdDbContext(DbContextOptions<QuantEdDbContext> options) : base(options)
         {
             

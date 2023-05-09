@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,8 +11,9 @@ public class Test
 {
     public int Id { get; set; }
     public string Name { get; set; }
-    public TimeSpan TimeLimit { get; set; }
-    public Module Module { get; set; }
-    public List<UserAttempt> UserAttempts { get; set; }
+    public byte Duration { get; set; }
+    public CourseModule Module { get; set; }
     public List<Question> Questions { get; set; }
+    
+    [NotMapped] public List<UserAttempt> UserAttempts { get; set; }
 }

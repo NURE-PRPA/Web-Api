@@ -16,7 +16,7 @@ public class Lecturer
     public DateOnly DOB { get; set; }
     public string Email { get; set; }
     public DateTime Date { get; set; }
-    public dynamic GoogleId { get; set; }
+    public long GoogleId { get; set; }
     public string Password { get; set; }
     public byte Experience { get; set; }
     public Organization Organization { get; set; }

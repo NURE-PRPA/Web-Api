@@ -16,6 +16,6 @@ public class Course
     public byte Price { get; set; }
     public CourseTopic Topic { get; set; }
     public Lecturer Lecturer { get; set; }
-    public List<Module> Modules { get; set; }
+    public List<CourseModule> Modules { get; set; }
     public List<Subscription> Subscriptions { get; set; }
 }

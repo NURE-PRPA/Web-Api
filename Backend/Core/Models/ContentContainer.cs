@@ -13,5 +13,5 @@ public class ContentContainer
     public string Description { get; set; }
     public DateTime Date { get; set; }
     public byte[] Binary { get; set; }
-    public Module Module { get; set; }
+    public CourseModule Module { get; set; }
 }
