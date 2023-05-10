@@ -100,7 +100,7 @@ namespace DL.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Lecturer",
+                name: "Lecturers",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -118,9 +118,9 @@ namespace DL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Lecturer", x => x.Id);
+                    table.PrimaryKey("PK_Lecturers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Lecturer_Organizations_OrganizationId",
+                        name: "FK_Lecturers_Organizations_OrganizationId",
                         column: x => x.OrganizationId,
                         principalTable: "Organizations",
                         principalColumn: "Id",
@@ -145,9 +145,9 @@ namespace DL.Migrations
                 {
                     table.PrimaryKey("PK_Courses", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Courses_Lecturer_LecturerId",
+                        name: "FK_Courses_Lecturers_LecturerId",
                         column: x => x.LecturerId,
-                        principalTable: "Lecturer",
+                        principalTable: "Lecturers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -367,8 +367,8 @@ namespace DL.Migrations
                 column: "SubscriptionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Lecturer_OrganizationId",
-                table: "Lecturer",
+                name: "IX_Lecturers_OrganizationId",
+                table: "Lecturers",
                 column: "OrganizationId");
 
             migrationBuilder.CreateIndex(
@@ -432,7 +432,7 @@ namespace DL.Migrations
                 name: "Courses");
 
             migrationBuilder.DropTable(
-                name: "Lecturer");
+                name: "Lecturers");
 
             migrationBuilder.DropTable(
                 name: "Organizations");

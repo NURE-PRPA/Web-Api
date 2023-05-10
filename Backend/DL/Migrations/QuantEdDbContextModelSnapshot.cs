@@ -16,7 +16,7 @@ namespace DL.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.0")
+                .HasAnnotation("ProductVersion", "8.0.0-preview.3.23174.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Core.Models.Administrator", b =>
@@ -277,7 +277,7 @@ namespace DL.Migrations
 
                     b.HasIndex("OrganizationId");
 
-                    b.ToTable("Lecturer");
+                    b.ToTable("Lecturers");
                 });
 
             modelBuilder.Entity("Core.Models.Listener", b =>

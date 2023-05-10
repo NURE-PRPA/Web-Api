@@ -15,6 +15,7 @@ namespace DL
         public DbSet<Course> Courses { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
         public DbSet<Listener> Listeners { get; set;}
+        public DbSet<Lecturer> Lecturers { get; set; }
         public DbSet<CourseModule> Modules { get; set;}
         public DbSet<Organization> Organizations { get; set;}
         public DbSet<Question> Questions { get; set;}
