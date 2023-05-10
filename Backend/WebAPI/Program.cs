@@ -8,6 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("TestDb:MySql");
 
 builder.Services.AddControllers();
+builder.Services.AddAuthentication("cookie").AddCookie("cookie");
+builder.Services.AddAuthorization();
+
 builder.Services.AddDbContext<QuantEdDbContext>(options => options.UseMySQL(connectionString));
 
 // Add services to the container.
@@ -24,7 +27,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// app.UseAuthorization();
+// to be used in the future
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 

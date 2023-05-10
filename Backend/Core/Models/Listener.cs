@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.Models;
 
-public class Listener
+public class Listener : AbstractUser
 {
     public int Id { get; set; }
     public string FirstName { get; set; }

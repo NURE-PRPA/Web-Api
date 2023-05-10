@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Core.Models;
 
-public class Lecturer
+public class Lecturer : AbstractUser
 {
     public int Id { get; set; }
     public string FirstName { get; set; }

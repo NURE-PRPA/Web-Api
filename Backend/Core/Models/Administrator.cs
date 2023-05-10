@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Core.Models;
 
-public class Administrator
+public class Administrator : AbstractUser
 {
     public int Id { get; set; }
     public string FirstName { get; set; }
