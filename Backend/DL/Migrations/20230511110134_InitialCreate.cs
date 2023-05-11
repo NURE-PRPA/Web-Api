@@ -19,12 +19,14 @@ namespace DL.Migrations
                 name: "Administrators",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<int>(type: "int", nullable: false),
                     FirstName = table.Column<string>(type: "longtext", nullable: false),
                     LastName = table.Column<string>(type: "longtext", nullable: false),
+                    Gender = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    DOB = table.Column<DateOnly>(type: "date", nullable: false),
                     Email = table.Column<string>(type: "longtext", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    GoogleId = table.Column<long>(type: "bigint", nullable: false),
                     Password = table.Column<string>(type: "longtext", nullable: false)
                 },
                 constraints: table =>
@@ -37,8 +39,7 @@ namespace DL.Migrations
                 name: "Listeners",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<int>(type: "int", nullable: false),
                     FirstName = table.Column<string>(type: "longtext", nullable: false),
                     LastName = table.Column<string>(type: "longtext", nullable: false),
                     Gender = table.Column<bool>(type: "tinyint(1)", nullable: false),
@@ -103,8 +104,7 @@ namespace DL.Migrations
                 name: "Lecturers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<int>(type: "int", nullable: false),
                     FirstName = table.Column<string>(type: "longtext", nullable: false),
                     LastName = table.Column<string>(type: "longtext", nullable: false),
                     Gender = table.Column<bool>(type: "tinyint(1)", nullable: false),

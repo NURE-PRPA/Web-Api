@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DL.Migrations
 {
     [DbContext(typeof(QuantEdDbContext))]
-    [Migration("20230510170624_InitialCreate")]
+    [Migration("20230511110134_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -22,11 +22,13 @@ namespace DL.Migrations
                 .HasAnnotation("ProductVersion", "8.0.0-preview.3.23174.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("Core.Models.Administrator", b =>
+            modelBuilder.Entity("Core.Models.AbstractUser", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<DateOnly>("DOB")
+                        .HasColumnType("date");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime(6)");
@@ -39,6 +41,12 @@ namespace DL.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<bool>("Gender")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<long>("GoogleId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -49,7 +57,9 @@ namespace DL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Administrators");
+                    b.ToTable((string)null);
+
+                    b.UseTpcMappingStrategy();
                 });
 
             modelBuilder.Entity("Core.Models.Answer", b =>
@@ -236,95 +246,6 @@ namespace DL.Migrations
                     b.ToTable("Feedbacks");
                 });
 
-            modelBuilder.Entity("Core.Models.Lecturer", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateOnly>("DOB")
-                        .HasColumnType("date");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<byte>("Experience")
-                        .HasColumnType("tinyint unsigned");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<bool>("Gender")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<long>("GoogleId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("OrganizationId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrganizationId");
-
-                    b.ToTable("Lecturers");
-                });
-
-            modelBuilder.Entity("Core.Models.Listener", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<byte>("BanCount")
-                        .HasColumnType("tinyint unsigned");
-
-                    b.Property<DateOnly>("DOB")
-                        .HasColumnType("date");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<bool>("Gender")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<long>("GoogleId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Listeners");
-                });
-
             modelBuilder.Entity("Core.Models.Organization", b =>
                 {
                     b.Property<int>("Id")
@@ -408,6 +329,38 @@ namespace DL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Tests");
+                });
+
+            modelBuilder.Entity("Core.Models.Administrator", b =>
+                {
+                    b.HasBaseType("Core.Models.AbstractUser");
+
+                    b.ToTable("Administrators");
+                });
+
+            modelBuilder.Entity("Core.Models.Lecturer", b =>
+                {
+                    b.HasBaseType("Core.Models.AbstractUser");
+
+                    b.Property<byte>("Experience")
+                        .HasColumnType("tinyint unsigned");
+
+                    b.Property<int>("OrganizationId")
+                        .HasColumnType("int");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.ToTable("Lecturers");
+                });
+
+            modelBuilder.Entity("Core.Models.Listener", b =>
+                {
+                    b.HasBaseType("Core.Models.AbstractUser");
+
+                    b.Property<byte>("BanCount")
+                        .HasColumnType("tinyint unsigned");
+
+                    b.ToTable("Listeners");
                 });
 
             modelBuilder.Entity("Core.Models.Answer", b =>
@@ -495,17 +448,6 @@ namespace DL.Migrations
                     b.Navigation("Subscription");
                 });
 
-            modelBuilder.Entity("Core.Models.Lecturer", b =>
-                {
-                    b.HasOne("Core.Models.Organization", "Organization")
-                        .WithMany("Lecturers")
-                        .HasForeignKey("OrganizationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Organization");
-                });
-
             modelBuilder.Entity("Core.Models.Question", b =>
                 {
                     b.HasOne("Core.Models.Test", "Test")
@@ -547,9 +489,15 @@ namespace DL.Migrations
                     b.Navigation("Module");
                 });
 
-            modelBuilder.Entity("Core.Models.Administrator", b =>
+            modelBuilder.Entity("Core.Models.Lecturer", b =>
                 {
-                    b.Navigation("Bans");
+                    b.HasOne("Core.Models.Organization", "Organization")
+                        .WithMany("Lecturers")
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Organization");
                 });
 
             modelBuilder.Entity("Core.Models.Course", b =>
@@ -565,18 +513,6 @@ namespace DL.Migrations
 
                     b.Navigation("Test")
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Core.Models.Lecturer", b =>
-                {
-                    b.Navigation("Courses");
-                });
-
-            modelBuilder.Entity("Core.Models.Listener", b =>
-                {
-                    b.Navigation("Bans");
-
-                    b.Navigation("Subscriptions");
                 });
 
             modelBuilder.Entity("Core.Models.Organization", b =>
@@ -600,6 +536,23 @@ namespace DL.Migrations
             modelBuilder.Entity("Core.Models.Test", b =>
                 {
                     b.Navigation("Questions");
+                });
+
+            modelBuilder.Entity("Core.Models.Administrator", b =>
+                {
+                    b.Navigation("Bans");
+                });
+
+            modelBuilder.Entity("Core.Models.Lecturer", b =>
+                {
+                    b.Navigation("Courses");
+                });
+
+            modelBuilder.Entity("Core.Models.Listener", b =>
+                {
+                    b.Navigation("Bans");
+
+                    b.Navigation("Subscriptions");
                 });
 #pragma warning restore 612, 618
         }

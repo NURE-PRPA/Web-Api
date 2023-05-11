@@ -52,6 +52,8 @@ namespace DL
             .HasOne(m => m.Test)
             .WithOne(t => t.Module)
             .HasForeignKey<Test>(m => m.Id);
+
+            modelBuilder.Entity<AbstractUser>().UseTpcMappingStrategy();
         }
     }
 }
