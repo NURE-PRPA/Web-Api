@@ -12,4 +12,9 @@ public class Lecturer : AbstractUser
     public byte Experience { get; set; }
     public Organization Organization { get; set; }
     public List<Course> Courses { get; set; }
+
+    public Lecturer()
+    {
+        
+    }
 }

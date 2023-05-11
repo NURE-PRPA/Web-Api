@@ -10,6 +10,7 @@ namespace WebAPI.Services.Abstractions;
 public interface IAuthService
 {
     public Task<bool> Login(AbstractUser user);
-    public Task LogOut(AbstractUser user);
+    public bool IsAuthenticated();
+    public Task LogOut();
     public Task<string> Register(AbstractUser user, bool isGoogle = false);
 }

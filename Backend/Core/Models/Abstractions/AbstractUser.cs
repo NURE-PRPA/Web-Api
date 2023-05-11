@@ -5,7 +5,7 @@ namespace Core.Models;
 //     public T Entity { get; set; }
 // }
 
-public abstract class AbstractUser
+public class AbstractUser
 {
     public int Id { get; set; }
     public string FirstName { get; set; }

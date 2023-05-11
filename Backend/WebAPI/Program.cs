@@ -1,5 +1,8 @@
 using DL;
 using Microsoft.EntityFrameworkCore;
+using WebAPI.Services;
+using WebAPI.Services.Abstractions;
+
 //using MySql.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,20 +14,24 @@ builder.Services.AddControllers();
 builder.Services.AddAuthentication("cookie").AddCookie("cookie");
 builder.Services.AddAuthorization();
 
-builder.Services.AddDbContext<QuantEdDbContext>(options => options.UseMySQL(connectionString));
-
 // Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddDbContext<QuantEdDbContext>(options => options.UseMySQL(connectionString));
+builder.Services.AddScoped<IIdentityService, IdentityService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+// builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
 //// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    // app.UseSwagger();
+    // app.UseSwaggerUI();
 }
 
 // to be used in the future
