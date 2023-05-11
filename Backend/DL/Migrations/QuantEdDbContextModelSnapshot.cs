@@ -24,9 +24,6 @@ namespace DL.Migrations
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
-                    b.Property<DateOnly>("DOB")
-                        .HasColumnType("date");
-
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime(6)");
 
@@ -54,7 +51,7 @@ namespace DL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable((string)null);
+                    b.ToTable("AbstractUser");
 
                     b.UseTpcMappingStrategy();
                 });

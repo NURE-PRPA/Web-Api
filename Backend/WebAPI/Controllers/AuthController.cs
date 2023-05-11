@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Services.Abstractions;
@@ -10,20 +11,45 @@ namespace WebAPI.Controllers;
 public class AuthController : ControllerBase
 {
     private IAuthService _auth;
-    
+
     public AuthController(IAuthService authService)
     {
         _auth = authService;
     }
 
-    
+    //// POST api/auth/register
+    //[HttpPost]
+    //[Route("register/{type:alpha?}")]
+    //public async Task<ActionResult<string>> Register([FromBody] dynamic user, string type)
+    //{
+    //    var isGoogle = type == "google";
+
+    //    if (user.Equals(null))
+    //        return BadRequest("Empty user provided!");
+
+    //    return Ok(await _auth.Register(Convert.ChangeType(user, typeof(AbstractUser)), isGoogle));
+    //}
+
     // POST api/auth/register
     [HttpPost]
-    [Route("register/{type:alpha?}")]
-    public async Task<ActionResult<string>> Register([FromBody] AbstractUser user, string type)
+    [Route("listener/register/{type:alpha?}")]
+    public async Task<ActionResult<string>> Register([FromBody] Listener user, string type)
     {
         var isGoogle = type == "google";
-        
+
+        if (user.Equals(null))
+            return BadRequest("Empty user provided!");
+
+        return Ok(await _auth.Register(user, isGoogle));
+    }
+
+    // POST api/auth/register
+    [HttpPost]
+    [Route("lecturer/register/{type:alpha?}")]
+    public async Task<ActionResult<string>> Register([FromBody] Lecturer user, string type)
+    {
+        var isGoogle = type == "google";
+
         if (user.Equals(null))
             return BadRequest("Empty user provided!");
 
@@ -33,8 +59,26 @@ public class AuthController : ControllerBase
     // POST api/auth/login
     [HttpPost]
     [Route("login")]
-    public async Task<ActionResult<string>> LogIn([FromBody] AbstractUser user)
+    public async Task<ActionResult<string>> LogIn([FromBody] LoginUser loginUser)
     {
+        AbstractUser user = new AbstractUser();
+        if(loginUser.UserType == "listener")
+        {
+            user = new Listener()
+            {
+                Email = loginUser.Email,
+                Password = loginUser.Password
+            };
+        }
+        else
+        {
+            user = new Lecturer()
+            {
+                Email = loginUser.Email,
+                Password = loginUser.Password
+            };
+        }
+
         if (user.Equals(null))
             return BadRequest("Empty user provided!");
 

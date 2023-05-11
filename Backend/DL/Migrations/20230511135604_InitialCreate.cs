@@ -16,6 +16,25 @@ namespace DL.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "AbstractUser",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    FirstName = table.Column<string>(type: "longtext", nullable: false),
+                    LastName = table.Column<string>(type: "longtext", nullable: false),
+                    Gender = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Email = table.Column<string>(type: "longtext", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    GoogleId = table.Column<long>(type: "bigint", nullable: false),
+                    Password = table.Column<string>(type: "longtext", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AbstractUser", x => x.Id);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Administrators",
                 columns: table => new
                 {
@@ -23,7 +42,6 @@ namespace DL.Migrations
                     FirstName = table.Column<string>(type: "longtext", nullable: false),
                     LastName = table.Column<string>(type: "longtext", nullable: false),
                     Gender = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    DOB = table.Column<DateOnly>(type: "date", nullable: false),
                     Email = table.Column<string>(type: "longtext", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     GoogleId = table.Column<long>(type: "bigint", nullable: false),
@@ -43,7 +61,6 @@ namespace DL.Migrations
                     FirstName = table.Column<string>(type: "longtext", nullable: false),
                     LastName = table.Column<string>(type: "longtext", nullable: false),
                     Gender = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    DOB = table.Column<DateOnly>(type: "date", nullable: false),
                     Email = table.Column<string>(type: "longtext", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     GoogleId = table.Column<long>(type: "bigint", nullable: false),
@@ -108,7 +125,6 @@ namespace DL.Migrations
                     FirstName = table.Column<string>(type: "longtext", nullable: false),
                     LastName = table.Column<string>(type: "longtext", nullable: false),
                     Gender = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    DOB = table.Column<DateOnly>(type: "date", nullable: false),
                     Email = table.Column<string>(type: "longtext", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     GoogleId = table.Column<long>(type: "bigint", nullable: false),
@@ -395,6 +411,9 @@ namespace DL.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AbstractUser");
+
             migrationBuilder.DropTable(
                 name: "Answers");
 
