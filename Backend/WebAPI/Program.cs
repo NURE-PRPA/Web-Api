@@ -4,8 +4,21 @@ using WebAPI.Services;
 using WebAPI.Services.Abstractions;
 
 //using MySql.EntityFrameworkCore;
+var angularApp = "Angular web app";
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy("Angular web app", option =>
+    {
+        option
+            .WithOrigins("http://localhost:4200")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("TestDb:MySql");
@@ -15,26 +28,26 @@ builder.Services.AddAuthentication("cookie").AddCookie("cookie");
 builder.Services.AddAuthorization();
 
 // Add services to the container.
-builder.Services.AddHttpContextAccessor();
 
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddDbContext<QuantEdDbContext>(options => options.UseMySQL(connectionString));
 builder.Services.AddScoped<IIdentityService, IdentityService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
+// builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
-//// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+// if (app.Environment.IsDevelopment())
+// {
+//     app.UseSwagger();
+//     app.UseSwaggerUI();
+// }
+app.UseRouting();
 
-// to be used in the future
+app.UseCors(angularApp);
+
 app.UseAuthentication();
 app.UseAuthorization();
 

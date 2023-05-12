@@ -13,7 +13,7 @@ public class UserService : IUserService
     {
         this._dbContext = context;
     }
-    
+
     public async Task<bool> UserExists(AbstractUser user) =>
         user == null ?
         new List<AbstractUser>()
@@ -29,13 +29,30 @@ public class UserService : IUserService
         
         if (user is Listener)
         {
-            return _dbContext.Listeners.FirstOrDefault(u => u.Email == user.Email);
+            return await _dbContext.Listeners.FirstOrDefaultAsync(u => u.Email == user.Email);
         }
         else
         {
-            return _dbContext.Lecturers
+            return await _dbContext.Lecturers
                 .Include(u => u.Organization)
-                .FirstOrDefault(u => u.Email == user.Email);
+                .FirstOrDefaultAsync(u => u.Email == user.Email);
+        }
+    }
+
+    public async Task<AbstractUser> ReadUser(string email, string userType)
+    {
+        if (string.IsNullOrEmpty(email))
+            throw new ArgumentException("email was not provided");
+
+        if (userType == "listener")
+        {
+            return await _dbContext.Listeners.FirstOrDefaultAsync(u => u.Email == email);
+        }
+        else
+        {
+            return await _dbContext.Lecturers
+                .Include(u => u.Organization)
+                .FirstOrDefaultAsync(u => u.Email == email);
         }
     }
 
@@ -120,5 +137,25 @@ public class UserService : IUserService
         {
             return false;
         }
+    }
+    
+    public IQueryable<List<Subscription>> GetListenerSubscriptions(string email)
+    {
+        if (string.IsNullOrEmpty(email))
+            throw new ArgumentException("email was not provided");
+        
+        return _dbContext.Listeners
+            .Include(u => u.Subscriptions)
+            .Select(u => u.Subscriptions);
+    }
+
+    public IQueryable<List<Course>> GetLecturerCourses(string email)
+    {
+        if (string.IsNullOrEmpty(email))
+            throw new ArgumentException("email was not provided!");
+
+        return _dbContext.Lecturers
+            .Include(l => l.Courses)
+            .Select(l => l.Courses);
     }
 }

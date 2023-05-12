@@ -1,6 +1,6 @@
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+using System.Text;
 using Core.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Services.Abstractions;
 
@@ -31,6 +31,7 @@ public class AuthController : ControllerBase
     //}
 
     // POST api/auth/register
+    [AllowAnonymous]
     [HttpPost]
     [Route("listener/register/{type:alpha?}")]
     public async Task<ActionResult<string>> Register([FromBody] Listener user, string type)
@@ -44,6 +45,7 @@ public class AuthController : ControllerBase
     }
 
     // POST api/auth/register
+    [AllowAnonymous]
     [HttpPost]
     [Route("lecturer/register/{type:alpha?}")]
     public async Task<ActionResult<string>> Register([FromBody] Lecturer user, string type)
@@ -57,11 +59,35 @@ public class AuthController : ControllerBase
     }
 
     // POST api/auth/login
+    [AllowAnonymous]
     [HttpPost]
     [Route("login")]
     public async Task<ActionResult<string>> LogIn([FromBody] LoginUser loginUser)
     {
+        var eb = new StringBuilder();
+        
+        Console.WriteLine($"E: {loginUser.Email}; P: {loginUser.Password}; T: {loginUser.UserType}");
+        
+        if (loginUser == null)
+            return BadRequest("Empty user provided!");
+
+        if (string.IsNullOrEmpty(loginUser.Email))
+            eb.Append("email was not provided:");
+        if (string.IsNullOrEmpty(loginUser.Password))
+            eb.Append("Password was not provided:");
+        if (string.IsNullOrEmpty(loginUser.UserType))
+            eb.Append("user type was not provided:");
+
+        if (eb.Length > 0)
+            eb.Remove(eb.Length - 1, 1);
+        
+        Console.WriteLine(eb.ToString());
+
+        if (eb.Length > 0)
+            return BadRequest(error: eb.ToString());
+        
         AbstractUser user = new AbstractUser();
+        
         if(loginUser.UserType == "listener")
         {
             user = new Listener()
@@ -79,12 +105,11 @@ public class AuthController : ControllerBase
             };
         }
 
-        if (user.Equals(null))
-            return BadRequest("Empty user provided!");
+
 
         return (await _auth.Login(user)) ? Ok("Logged in") : Ok("Login failed");
     }
-    
+
     // POST api/auth/logout
     [HttpPost]
     [Route("logout")]
@@ -95,23 +120,3 @@ public class AuthController : ControllerBase
          return Ok();
     }
 }
-
-// {
-// "id": 0,
-// "firstName": "Michael",
-// "lastName": "Tkachenko",
-// "gender": false,
-// "dob": {
-//     "year": 2003,
-//     "month": 1,
-//     "day": 24,
-//     "dayOfWeek": 0
-// },
-// "email": "20werasdf@gmail.com",
-// "date": "2023-05-11T12:41:15.557Z",
-// "googleId": 0,
-// "password": "123456",
-// "banCount": 0,
-// "bans": null,
-// "subscriptions": null
-// }
