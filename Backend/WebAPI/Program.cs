@@ -21,7 +21,7 @@ builder.Services.AddCors(opt =>
 });
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("TestDb:MySql");
+var connectionString = builder.Configuration.GetConnectionString("MyLittleSnus");
 
 builder.Services.AddControllers();
 builder.Services.AddAuthentication("cookie").AddCookie("cookie");

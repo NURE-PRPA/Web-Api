@@ -1,44 +1,54 @@
 using Core.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebAPI.Response.Models;
 using WebAPI.Services.Abstractions;
 
 namespace WebAPI.Controllers;
 
 [ApiController]
-[Route("profile/me")]
+[Route("api/profile/me")]
 public class ProfileController : ControllerBase
 {
     private IUserService _userService;
-    private IHttpContextAccessor _accessor;
+    private HttpContext _context;
     
     public ProfileController(IUserService userService, IHttpContextAccessor accessor)
     {
         _userService = userService;
-        _accessor = accessor;
+        _context = accessor.HttpContext;
     }
     
-    [Authorize]
+    
     [HttpGet]
     [Route("info")]
-    public async Task<ActionResult<AbstractUser>> GetInfo()
+    public async Task<ActionResult> GetInfo()
     {
-        var email = this._accessor.HttpContext.User.Claims
+        Console.WriteLine("User: " + _context.User);
+        Console.WriteLine("Claims count: " + _context.User.Claims.Count());
+        
+        var email = _context.User.Claims
             .FirstOrDefault(c => c.Type == "email").Value;
-        var userType = this._accessor.HttpContext.User.Claims
-            .FirstOrDefault(c => c.Type == "userType").Value;
+        // var userType = this._accessor.HttpContext.User.Claims
+        //     .FirstOrDefault(c => c.Type == "userType").Value;
+
+        var userType = "listener"; // just a temporary hard coding solution
+        
+        Console.WriteLine("email: " + email);
+        Console.WriteLine("user type: " + userType);
 
         var user = await _userService.ReadUser(email, userType);
 
         if (user == null)
-            return NotFound("additional info not found");
+            return NotFound(new Response<object>(OperationResult.OK, "user not found"));
 
-        return Ok(user);
+        if (userType == "listener")
+            return Ok(new Response<Listener>(OperationResult.OK, user as Listener));
+        else
+            return Ok(new Response<Lecturer>(OperationResult.OK, user as Lecturer));
     }
-
-    [Authorize]
+    
     [HttpGet]
-    [Route("courses")]
+    [Route("items")]
     public async Task<ActionResult> GetMyItems()
     {
         var cookieInfo = GetCookieAuthInfo();
@@ -69,9 +79,9 @@ public class ProfileController : ControllerBase
 
     private (string Email, string UserType) GetCookieAuthInfo()
     {
-        var email = this._accessor.HttpContext.User.Claims
+        var email = _context.User.Claims
             .FirstOrDefault(c => c.Type == "email").Value;
-        var userType = this._accessor.HttpContext.User.Claims
+        var userType = _context.User.Claims
             .FirstOrDefault(c => c.Type == "userType").Value;
 
         return (email, userType);

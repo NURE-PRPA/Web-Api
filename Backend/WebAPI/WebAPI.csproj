@@ -25,4 +25,8 @@
     <ProjectReference Include="..\DL\DL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Assets\Courses\Images\" />
+  </ItemGroup>
+
 </Project>

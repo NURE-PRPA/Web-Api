@@ -2,6 +2,7 @@ using System.Text;
 using Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebAPI.Response.Models;
 using WebAPI.Services.Abstractions;
 
 namespace WebAPI.Controllers;
@@ -105,9 +106,9 @@ public class AuthController : ControllerBase
             };
         }
 
-
-
-        return (await _auth.Login(user)) ? Ok("Logged in") : Ok("Login failed");
+        return (await _auth.Login(user)) ? 
+            Ok(new Response<object>(OperationResult.OK, "Logged in!")) : 
+            Ok(new Response<object>(OperationResult.ERROR, "failed to log in!"));
     }
 
     // POST api/auth/logout
