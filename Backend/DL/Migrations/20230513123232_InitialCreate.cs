@@ -64,8 +64,7 @@ namespace DL.Migrations
                     Email = table.Column<string>(type: "longtext", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     GoogleId = table.Column<long>(type: "bigint", nullable: false),
-                    Password = table.Column<string>(type: "longtext", nullable: false),
-                    BanCount = table.Column<byte>(type: "tinyint unsigned", nullable: false)
+                    Password = table.Column<string>(type: "longtext", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -95,6 +94,7 @@ namespace DL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Reason = table.Column<string>(type: "longtext", nullable: false),
+                    IsActive = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     ListenerId = table.Column<int>(type: "int", nullable: false),
                     AdministratorId = table.Column<int>(type: "int", nullable: false)
@@ -152,7 +152,7 @@ namespace DL.Migrations
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "longtext", nullable: false),
                     Description = table.Column<string>(type: "longtext", nullable: false),
-                    Difficulty = table.Column<byte>(type: "tinyint unsigned", nullable: false),
+                    Difficulty = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<byte>(type: "tinyint unsigned", nullable: false),
                     Topic = table.Column<int>(type: "int", nullable: false),
                     LecturerId = table.Column<int>(type: "int", nullable: false)

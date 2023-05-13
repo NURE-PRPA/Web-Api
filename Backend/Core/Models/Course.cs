@@ -12,7 +12,7 @@ public class Course
     public int Id { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
-    public byte Difficulty { get; set; }
+    public CourseDifficulty Difficulty { get; set; }
     public byte Price { get; set; }
     public CourseTopic Topic { get; set; }
     public Lecturer Lecturer { get; set; }

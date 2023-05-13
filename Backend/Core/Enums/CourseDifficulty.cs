@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Core.Enums;
 
-public enum QuestionType
+public enum CourseDifficulty
 {
     None = 0,
-    Single = 1,
-    Multiple = 2,
-    Input = 3
+    Basic = 1,
+    Intermediate = 2,
+    Advanced = 3
 }

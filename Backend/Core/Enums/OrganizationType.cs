@@ -8,9 +8,10 @@ namespace Core.Enums
 {
     public enum OrganizationType
     {
-        School = 0,
-        University = 1,
-        College = 2,
-        Company = 3
+        None = 0,
+        School = 1,
+        University = 2,
+        College = 3,
+        Company = 4
     }
 }

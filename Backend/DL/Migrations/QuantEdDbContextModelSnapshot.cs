@@ -91,6 +91,9 @@ namespace DL.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<int>("ListenerId")
                         .HasColumnType("int");
 
@@ -164,8 +167,8 @@ namespace DL.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<byte>("Difficulty")
-                        .HasColumnType("tinyint unsigned");
+                    b.Property<int>("Difficulty")
+                        .HasColumnType("int");
 
                     b.Property<int>("LecturerId")
                         .HasColumnType("int");
@@ -350,9 +353,6 @@ namespace DL.Migrations
             modelBuilder.Entity("Core.Models.Listener", b =>
                 {
                     b.HasBaseType("Core.Models.AbstractUser");
-
-                    b.Property<byte>("BanCount")
-                        .HasColumnType("tinyint unsigned");
 
                     b.ToTable("Listeners");
                 });

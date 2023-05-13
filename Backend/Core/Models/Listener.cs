@@ -8,7 +8,6 @@ namespace Core.Models;
 
 public class Listener : AbstractUser
 {
-    public byte BanCount { get; set; }
     public List<Ban> Bans { get; set; }
     public List<Subscription> Subscriptions { get; set; }
 }

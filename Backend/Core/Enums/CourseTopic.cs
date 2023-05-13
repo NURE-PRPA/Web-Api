@@ -8,13 +8,14 @@ namespace Core.Enums;
 
 public enum CourseTopic
 {
-    Programming = 0,
-    Mathematics = 1,
-    Physics = 2,
-    Chemistry = 3,
-    Engineering = 4,
-    Languages = 5,
-    Biology = 6,
-    Economy = 7,
-    Geography = 8
+    None = 0,
+    Programming = 1,
+    Mathematics = 2,
+    Physics = 3,
+    Chemistry = 4,
+    Engineering = 5,
+    Languages = 6,
+    Biology = 7,
+    Economy = 8,
+    Geography = 9
 }
