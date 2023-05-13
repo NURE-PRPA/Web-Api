@@ -56,6 +56,36 @@ namespace DL.Migrations
                     b.UseTpcMappingStrategy();
                 });
 
+            modelBuilder.Entity("Core.Models.Administrator", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Administrators");
+                });
+
             modelBuilder.Entity("Core.Models.Answer", b =>
                 {
                     b.Property<int>("Id")
@@ -328,13 +358,6 @@ namespace DL.Migrations
                     b.ToTable("Tests");
                 });
 
-            modelBuilder.Entity("Core.Models.Administrator", b =>
-                {
-                    b.HasBaseType("Core.Models.AbstractUser");
-
-                    b.ToTable("Administrators");
-                });
-
             modelBuilder.Entity("Core.Models.Lecturer", b =>
                 {
                     b.HasBaseType("Core.Models.AbstractUser");
@@ -494,6 +517,11 @@ namespace DL.Migrations
                     b.Navigation("Organization");
                 });
 
+            modelBuilder.Entity("Core.Models.Administrator", b =>
+                {
+                    b.Navigation("Bans");
+                });
+
             modelBuilder.Entity("Core.Models.Course", b =>
                 {
                     b.Navigation("Modules");
@@ -530,11 +558,6 @@ namespace DL.Migrations
             modelBuilder.Entity("Core.Models.Test", b =>
                 {
                     b.Navigation("Questions");
-                });
-
-            modelBuilder.Entity("Core.Models.Administrator", b =>
-                {
-                    b.Navigation("Bans");
                 });
 
             modelBuilder.Entity("Core.Models.Lecturer", b =>

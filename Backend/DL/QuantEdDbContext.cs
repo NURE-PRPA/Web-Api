@@ -54,6 +54,22 @@ namespace DL
             .HasForeignKey<Test>(m => m.Id);
 
             modelBuilder.Entity<AbstractUser>().UseTpcMappingStrategy();
+
+            //modelBuilder.Entity<AbstractUser>().HasKey(e => e.Id);
+            //modelBuilder.Entity<Administrator>().HasKey(e => e.Id);
+            //modelBuilder.Entity<Answer>().HasKey(e => e.Id);
+            //modelBuilder.Entity<Ban>().HasKey(e => e.Id);
+            //modelBuilder.Entity<Certificate>().HasKey(e => e.Id);
+            //modelBuilder.Entity<ContentContainer>().HasKey(e => e.Id);
+            //modelBuilder.Entity<Course>().HasKey(e => e.Id);
+            //modelBuilder.Entity<CourseModule>().HasKey(e => e.Id);
+            //modelBuilder.Entity<Feedback>().HasKey(e => e.Id);
+            //modelBuilder.Entity<Lecturer>().HasKey(e => e.Id);
+            //modelBuilder.Entity<Listener>().HasKey(e => e.Id);
+            //modelBuilder.Entity<Organization>().HasKey(e => e.Id);
+            //modelBuilder.Entity<Question>().HasKey(e => e.Id);
+            //modelBuilder.Entity<Subscription>().HasKey(e => e.Id);
+            //modelBuilder.Entity<Test>().HasKey(e => e.Id);
         }
     }
 }
