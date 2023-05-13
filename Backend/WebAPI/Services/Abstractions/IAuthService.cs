@@ -13,4 +13,5 @@ public interface IAuthService
     public bool IsAuthenticated();
     public Task LogOut();
     public Task<string> Register(AbstractUser user, bool isGoogle = false);
+    public (string Email, string UserType) GetCookieAuthInfo();
 }

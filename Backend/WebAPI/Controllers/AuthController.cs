@@ -7,6 +7,7 @@ using WebAPI.Services.Abstractions;
 
 namespace WebAPI.Controllers;
 
+[System.Web.Http.Authorize]
 [ApiController]
 [Route("api/auth")]
 public class AuthController : ControllerBase
@@ -120,4 +121,13 @@ public class AuthController : ControllerBase
          
          return Ok();
     }
+    
+    // [HttpGet]
+    // [Route("logout")]
+    // public async Task<ActionResult<string>> LogOutG()
+    // {
+    //     await _auth.LogOut();
+    //      
+    //     return Ok();
+    // }
 }

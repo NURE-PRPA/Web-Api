@@ -139,14 +139,16 @@ public class UserService : IUserService
         }
     }
     
-    public IQueryable<List<Subscription>> GetListenerSubscriptions(string email)
+    public List<Subscription> GetListenerSubscriptions(string email)
     {
         if (string.IsNullOrEmpty(email))
             throw new ArgumentException("email was not provided");
-        
+
         return _dbContext.Listeners
             .Include(u => u.Subscriptions)
-            .Select(u => u.Subscriptions);
+            .ThenInclude(s => s.Course)
+            .FirstOrDefault(l => l.Email == email)
+            .Subscriptions;
     }
 
     public IQueryable<List<Course>> GetLecturerCourses(string email)

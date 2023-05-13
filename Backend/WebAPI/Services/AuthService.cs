@@ -23,10 +23,10 @@ public class AuthService : IAuthService
     }
     public async Task<bool> Login(AbstractUser user)
     {
-        if (IsAuthenticated())
-        {
-            return true;
-        }
+        // if (IsAuthenticated())
+        // {
+        //     return true;
+        // }
         
         AbstractUser dbUser = await _userService.ReadUser(user);
         
@@ -81,6 +81,23 @@ public class AuthService : IAuthService
         else
         {
            return (await _userService.AddUser(user)) ? "OK" : "Register failed";
+        }
+    }
+    public (string Email, string UserType) GetCookieAuthInfo()
+    {
+        try
+        {
+            var email = _ctx.User.Claims
+                .FirstOrDefault(c => c.Type == "email").Value;
+
+            // var userType = _ctx.User.Claims
+            //     .FirstOrDefault(c => c.Type == "userType").Value;
+
+            return (email, "listener");
+        }
+        catch
+        {
+            return (null, null);
         }
     }
 }

@@ -10,6 +10,6 @@ public interface IUserService
     public Task<bool> DeleteUser(AbstractUser user);
     public Task<bool> AddUser(AbstractUser user);
     public Task<bool> UpdateUser(AbstractUser user);
-    public IQueryable<List<Subscription>> GetListenerSubscriptions(string email);
+    public List<Subscription> GetListenerSubscriptions(string email);
     public IQueryable<List<Course>> GetLecturerCourses(string email);
 }

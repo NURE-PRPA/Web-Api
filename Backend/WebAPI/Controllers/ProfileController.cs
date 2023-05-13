@@ -11,11 +11,13 @@ public class ProfileController : ControllerBase
 {
     private IUserService _userService;
     private HttpContext _context;
+    private IAuthService _auth;
     
-    public ProfileController(IUserService userService, IHttpContextAccessor accessor)
+    public ProfileController(IUserService userService, IHttpContextAccessor accessor, IAuthService authService)
     {
         _userService = userService;
         _context = accessor.HttpContext;
+        _auth = authService;
     }
     
     
@@ -51,7 +53,7 @@ public class ProfileController : ControllerBase
     [Route("items")]
     public async Task<ActionResult> GetMyItems()
     {
-        var cookieInfo = GetCookieAuthInfo();
+        var cookieInfo = _auth.GetCookieAuthInfo();
 
         if (cookieInfo.UserType == "listener")
         {
@@ -75,15 +77,5 @@ public class ProfileController : ControllerBase
 
             return Ok(courses);
         }
-    }
-
-    private (string Email, string UserType) GetCookieAuthInfo()
-    {
-        var email = _context.User.Claims
-            .FirstOrDefault(c => c.Type == "email").Value;
-        var userType = _context.User.Claims
-            .FirstOrDefault(c => c.Type == "userType").Value;
-
-        return (email, userType);
     }
 }
