@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DL.Migrations
 {
     [DbContext(typeof(QuantEdDbContext))]
-    [Migration("20230514072809_InitialCreate")]
+    [Migration("20230514084829_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -233,8 +233,8 @@ namespace DL.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime>("Estimate")
-                        .HasColumnType("datetime(6)");
+                    b.Property<TimeSpan>("Estimate")
+                        .HasColumnType("time(6)");
 
                     b.Property<string>("Name")
                         .IsRequired()

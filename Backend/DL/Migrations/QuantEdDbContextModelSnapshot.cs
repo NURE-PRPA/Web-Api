@@ -230,8 +230,8 @@ namespace DL.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime>("Estimate")
-                        .HasColumnType("datetime(6)");
+                    b.Property<TimeSpan>("Estimate")
+                        .HasColumnType("time(6)");
 
                     b.Property<string>("Name")
                         .IsRequired()

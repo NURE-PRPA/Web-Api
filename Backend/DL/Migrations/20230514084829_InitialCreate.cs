@@ -167,7 +167,7 @@ namespace DL.Migrations
                     Id = table.Column<string>(type: "varchar(255)", nullable: false),
                     Name = table.Column<string>(type: "longtext", nullable: false),
                     Description = table.Column<string>(type: "longtext", nullable: false),
-                    Estimate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Estimate = table.Column<TimeSpan>(type: "time(6)", nullable: false),
                     CourseId = table.Column<string>(type: "varchar(255)", nullable: false)
                 },
                 constraints: table =>
