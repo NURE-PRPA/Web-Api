@@ -21,7 +21,8 @@ builder.Services.AddCors(opt =>
 });
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("MyLittleSnus");
+//var connectionString = builder.Configuration.GetConnectionString("MyLittleSnus");
+var connectionString = builder.Configuration.GetConnectionString("Sentinel");
 
 builder.Services.AddControllers();
 builder.Services.AddAuthentication("cookie").AddCookie("cookie");

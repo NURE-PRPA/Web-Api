@@ -11,7 +11,7 @@ namespace Core.Models;
 //[NotMapped]
 public class UserAttempt
 {
-    public int Id { get; set; }
+    public string Id { get; set; }
     public byte Mark { get; set; }
     public int SubscriptionId { get; set; }
     public int TestId { get; set; }

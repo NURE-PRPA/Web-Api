@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using MySql.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
@@ -19,10 +18,10 @@ namespace DL.Migrations
                 name: "AbstractUser",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<string>(type: "varchar(255)", nullable: false),
                     FirstName = table.Column<string>(type: "longtext", nullable: false),
                     LastName = table.Column<string>(type: "longtext", nullable: false),
-                    Gender = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Gender = table.Column<string>(type: "longtext", nullable: false),
                     Email = table.Column<string>(type: "longtext", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     GoogleId = table.Column<long>(type: "bigint", nullable: false),
@@ -38,8 +37,7 @@ namespace DL.Migrations
                 name: "Administrators",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<string>(type: "varchar(255)", nullable: false),
                     FirstName = table.Column<string>(type: "longtext", nullable: false),
                     LastName = table.Column<string>(type: "longtext", nullable: false),
                     Email = table.Column<string>(type: "longtext", nullable: false),
@@ -56,10 +54,10 @@ namespace DL.Migrations
                 name: "Listeners",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<string>(type: "varchar(255)", nullable: false),
                     FirstName = table.Column<string>(type: "longtext", nullable: false),
                     LastName = table.Column<string>(type: "longtext", nullable: false),
-                    Gender = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Gender = table.Column<string>(type: "longtext", nullable: false),
                     Email = table.Column<string>(type: "longtext", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     GoogleId = table.Column<long>(type: "bigint", nullable: false),
@@ -75,8 +73,7 @@ namespace DL.Migrations
                 name: "Organizations",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<string>(type: "varchar(255)", nullable: false),
                     Name = table.Column<string>(type: "longtext", nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false)
                 },
@@ -90,13 +87,12 @@ namespace DL.Migrations
                 name: "Bans",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<string>(type: "varchar(255)", nullable: false),
                     Reason = table.Column<string>(type: "longtext", nullable: false),
                     IsActive = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    ListenerId = table.Column<int>(type: "int", nullable: false),
-                    AdministratorId = table.Column<int>(type: "int", nullable: false)
+                    ListenerId = table.Column<string>(type: "varchar(255)", nullable: true),
+                    AdministratorId = table.Column<string>(type: "varchar(255)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -111,8 +107,7 @@ namespace DL.Migrations
                         name: "FK_Bans_Listeners_ListenerId",
                         column: x => x.ListenerId,
                         principalTable: "Listeners",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -120,16 +115,16 @@ namespace DL.Migrations
                 name: "Lecturers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<string>(type: "varchar(255)", nullable: false),
                     FirstName = table.Column<string>(type: "longtext", nullable: false),
                     LastName = table.Column<string>(type: "longtext", nullable: false),
-                    Gender = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Gender = table.Column<string>(type: "longtext", nullable: false),
                     Email = table.Column<string>(type: "longtext", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     GoogleId = table.Column<long>(type: "bigint", nullable: false),
                     Password = table.Column<string>(type: "longtext", nullable: false),
                     Experience = table.Column<byte>(type: "tinyint unsigned", nullable: false),
-                    OrganizationId = table.Column<int>(type: "int", nullable: false)
+                    OrganizationId = table.Column<string>(type: "varchar(255)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -138,8 +133,7 @@ namespace DL.Migrations
                         name: "FK_Lecturers_Organizations_OrganizationId",
                         column: x => x.OrganizationId,
                         principalTable: "Organizations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -147,14 +141,13 @@ namespace DL.Migrations
                 name: "Courses",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<string>(type: "varchar(255)", nullable: false),
                     Name = table.Column<string>(type: "longtext", nullable: false),
                     Description = table.Column<string>(type: "longtext", nullable: false),
                     Difficulty = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<byte>(type: "tinyint unsigned", nullable: false),
                     Topic = table.Column<int>(type: "int", nullable: false),
-                    LecturerId = table.Column<int>(type: "int", nullable: false)
+                    LecturerId = table.Column<string>(type: "varchar(255)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -163,8 +156,7 @@ namespace DL.Migrations
                         name: "FK_Courses_Lecturers_LecturerId",
                         column: x => x.LecturerId,
                         principalTable: "Lecturers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -172,12 +164,11 @@ namespace DL.Migrations
                 name: "Modules",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<string>(type: "varchar(255)", nullable: false),
                     Name = table.Column<string>(type: "longtext", nullable: false),
                     Description = table.Column<string>(type: "longtext", nullable: false),
                     Estimate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CourseId = table.Column<int>(type: "int", nullable: false)
+                    CourseId = table.Column<string>(type: "varchar(255)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -195,12 +186,11 @@ namespace DL.Migrations
                 name: "Subscriptions",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<string>(type: "varchar(255)", nullable: false),
                     IsActive = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    ListenerId = table.Column<int>(type: "int", nullable: false),
-                    CourseId = table.Column<int>(type: "int", nullable: false)
+                    ListenerId = table.Column<string>(type: "varchar(255)", nullable: false),
+                    CourseId = table.Column<string>(type: "varchar(255)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -224,13 +214,12 @@ namespace DL.Migrations
                 name: "Containers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<string>(type: "varchar(255)", nullable: false),
                     Name = table.Column<string>(type: "longtext", nullable: false),
                     Description = table.Column<string>(type: "longtext", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Binary = table.Column<byte[]>(type: "longblob", nullable: false),
-                    ModuleId = table.Column<int>(type: "int", nullable: false)
+                    ModuleId = table.Column<string>(type: "varchar(255)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -239,8 +228,7 @@ namespace DL.Migrations
                         name: "FK_Containers_Modules_ModuleId",
                         column: x => x.ModuleId,
                         principalTable: "Modules",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -248,7 +236,7 @@ namespace DL.Migrations
                 name: "Tests",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<string>(type: "varchar(255)", nullable: false),
                     Name = table.Column<string>(type: "longtext", nullable: false),
                     Duration = table.Column<byte>(type: "tinyint unsigned", nullable: false)
                 },
@@ -268,7 +256,7 @@ namespace DL.Migrations
                 name: "Certificates",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<string>(type: "varchar(255)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Mark = table.Column<byte>(type: "tinyint unsigned", nullable: false)
                 },
@@ -288,12 +276,11 @@ namespace DL.Migrations
                 name: "Feedbacks",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<string>(type: "varchar(255)", nullable: false),
                     Comment = table.Column<string>(type: "longtext", nullable: false),
                     Stars = table.Column<byte>(type: "tinyint unsigned", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    SubscriptionId = table.Column<int>(type: "int", nullable: false)
+                    SubscriptionId = table.Column<string>(type: "varchar(255)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -302,8 +289,7 @@ namespace DL.Migrations
                         name: "FK_Feedbacks_Subscriptions_SubscriptionId",
                         column: x => x.SubscriptionId,
                         principalTable: "Subscriptions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -311,11 +297,10 @@ namespace DL.Migrations
                 name: "Questions",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<string>(type: "varchar(255)", nullable: false),
                     Text = table.Column<string>(type: "longtext", nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false),
-                    TestId = table.Column<int>(type: "int", nullable: false)
+                    TestId = table.Column<string>(type: "varchar(255)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -324,8 +309,7 @@ namespace DL.Migrations
                         name: "FK_Questions_Tests_TestId",
                         column: x => x.TestId,
                         principalTable: "Tests",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -333,11 +317,10 @@ namespace DL.Migrations
                 name: "Answers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<string>(type: "varchar(255)", nullable: false),
                     Text = table.Column<string>(type: "longtext", nullable: false),
                     IsCorrect = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    QuestionId = table.Column<int>(type: "int", nullable: false)
+                    QuestionId = table.Column<string>(type: "varchar(255)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -346,8 +329,7 @@ namespace DL.Migrations
                         name: "FK_Answers_Questions_QuestionId",
                         column: x => x.QuestionId,
                         principalTable: "Questions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 

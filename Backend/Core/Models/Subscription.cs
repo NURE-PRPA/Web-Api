@@ -9,7 +9,7 @@ namespace Core.Models;
 
 public class Subscription
 {
-    public int Id { get; set; }
+    public string Id { get; set; }
     public bool IsActive { get; set; }
     public DateTime Date { get; set; }
     public Listener Listener { get; set; }

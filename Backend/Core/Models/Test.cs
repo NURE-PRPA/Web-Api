@@ -9,7 +9,7 @@ namespace Core.Models;
 
 public class Test
 {
-    public int Id { get; set; }
+    public string Id { get; set; }
     public string Name { get; set; }
     public byte Duration { get; set; }
     public CourseModule Module { get; set; }

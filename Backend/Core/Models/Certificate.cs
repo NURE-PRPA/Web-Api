@@ -8,7 +8,7 @@ namespace Core.Models;
 
 public class Certificate
 {
-    public int Id { get; set; }
+    public string Id { get; set; }
     public DateTime Date { get; set; }
     public byte Mark { get; set; }
     public Subscription Subscription { get; set; }

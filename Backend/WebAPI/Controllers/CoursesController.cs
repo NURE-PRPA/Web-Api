@@ -40,7 +40,7 @@ public class CoursesController : ControllerBase
     [AllowAnonymous]
     [HttpGet]
     [Route("{id:int}")]
-    public async Task<ActionResult> GetCourse(int id)
+    public async Task<ActionResult> GetCourse(string id)
     {
         return await Task.Run(() =>
         {
@@ -56,7 +56,7 @@ public class CoursesController : ControllerBase
     
     [HttpGet]
     [Route("authorize/{courseId:int}")]
-    public async Task<ActionResult> IsCourseAcquired(int courseId)
+    public async Task<ActionResult> IsCourseAcquired(string courseId)
     {
         var user = _auth.GetCookieAuthInfo();
 

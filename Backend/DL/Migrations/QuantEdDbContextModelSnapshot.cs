@@ -21,8 +21,8 @@ namespace DL.Migrations
 
             modelBuilder.Entity("Core.Models.AbstractUser", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime(6)");
@@ -35,8 +35,9 @@ namespace DL.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<bool>("Gender")
-                        .HasColumnType("tinyint(1)");
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<long>("GoogleId")
                         .HasColumnType("bigint");
@@ -58,9 +59,8 @@ namespace DL.Migrations
 
             modelBuilder.Entity("Core.Models.Administrator", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime(6)");
@@ -88,15 +88,14 @@ namespace DL.Migrations
 
             modelBuilder.Entity("Core.Models.Answer", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<bool>("IsCorrect")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<int>("QuestionId")
-                        .HasColumnType("int");
+                    b.Property<string>("QuestionId")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Text")
                         .IsRequired()
@@ -111,12 +110,12 @@ namespace DL.Migrations
 
             modelBuilder.Entity("Core.Models.Ban", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
 
-                    b.Property<int>("AdministratorId")
-                        .HasColumnType("int");
+                    b.Property<string>("AdministratorId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime(6)");
@@ -124,8 +123,8 @@ namespace DL.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<int>("ListenerId")
-                        .HasColumnType("int");
+                    b.Property<string>("ListenerId")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Reason")
                         .IsRequired()
@@ -142,8 +141,8 @@ namespace DL.Migrations
 
             modelBuilder.Entity("Core.Models.Certificate", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime(6)");
@@ -158,9 +157,8 @@ namespace DL.Migrations
 
             modelBuilder.Entity("Core.Models.ContentContainer", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<byte[]>("Binary")
                         .IsRequired()
@@ -173,8 +171,8 @@ namespace DL.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("ModuleId")
-                        .HasColumnType("int");
+                    b.Property<string>("ModuleId")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -189,9 +187,8 @@ namespace DL.Migrations
 
             modelBuilder.Entity("Core.Models.Course", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -200,8 +197,8 @@ namespace DL.Migrations
                     b.Property<int>("Difficulty")
                         .HasColumnType("int");
 
-                    b.Property<int>("LecturerId")
-                        .HasColumnType("int");
+                    b.Property<string>("LecturerId")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -222,12 +219,12 @@ namespace DL.Migrations
 
             modelBuilder.Entity("Core.Models.CourseModule", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
 
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -249,9 +246,8 @@ namespace DL.Migrations
 
             modelBuilder.Entity("Core.Models.Feedback", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Comment")
                         .IsRequired()
@@ -263,8 +259,8 @@ namespace DL.Migrations
                     b.Property<byte>("Stars")
                         .HasColumnType("tinyint unsigned");
 
-                    b.Property<int>("SubscriptionId")
-                        .HasColumnType("int");
+                    b.Property<string>("SubscriptionId")
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -275,9 +271,8 @@ namespace DL.Migrations
 
             modelBuilder.Entity("Core.Models.Organization", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -293,12 +288,11 @@ namespace DL.Migrations
 
             modelBuilder.Entity("Core.Models.Question", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
 
-                    b.Property<int>("TestId")
-                        .HasColumnType("int");
+                    b.Property<string>("TestId")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Text")
                         .IsRequired()
@@ -316,12 +310,12 @@ namespace DL.Migrations
 
             modelBuilder.Entity("Core.Models.Subscription", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
 
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime(6)");
@@ -329,8 +323,9 @@ namespace DL.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<int>("ListenerId")
-                        .HasColumnType("int");
+                    b.Property<string>("ListenerId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -343,8 +338,8 @@ namespace DL.Migrations
 
             modelBuilder.Entity("Core.Models.Test", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<byte>("Duration")
                         .HasColumnType("tinyint unsigned");
@@ -365,8 +360,8 @@ namespace DL.Migrations
                     b.Property<byte>("Experience")
                         .HasColumnType("tinyint unsigned");
 
-                    b.Property<int>("OrganizationId")
-                        .HasColumnType("int");
+                    b.Property<string>("OrganizationId")
+                        .HasColumnType("varchar(255)");
 
                     b.HasIndex("OrganizationId");
 
@@ -384,9 +379,7 @@ namespace DL.Migrations
                 {
                     b.HasOne("Core.Models.Question", "Question")
                         .WithMany("Answers")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("QuestionId");
 
                     b.Navigation("Question");
                 });
@@ -401,9 +394,7 @@ namespace DL.Migrations
 
                     b.HasOne("Core.Models.Listener", "Listener")
                         .WithMany("Bans")
-                        .HasForeignKey("ListenerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ListenerId");
 
                     b.Navigation("Administrator");
 
@@ -425,9 +416,7 @@ namespace DL.Migrations
                 {
                     b.HasOne("Core.Models.CourseModule", "Module")
                         .WithMany("ContentContainers")
-                        .HasForeignKey("ModuleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ModuleId");
 
                     b.Navigation("Module");
                 });
@@ -436,9 +425,7 @@ namespace DL.Migrations
                 {
                     b.HasOne("Core.Models.Lecturer", "Lecturer")
                         .WithMany("Courses")
-                        .HasForeignKey("LecturerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LecturerId");
 
                     b.Navigation("Lecturer");
                 });
@@ -458,9 +445,7 @@ namespace DL.Migrations
                 {
                     b.HasOne("Core.Models.Subscription", "Subscription")
                         .WithMany("Feedbacks")
-                        .HasForeignKey("SubscriptionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SubscriptionId");
 
                     b.Navigation("Subscription");
                 });
@@ -469,9 +454,7 @@ namespace DL.Migrations
                 {
                     b.HasOne("Core.Models.Test", "Test")
                         .WithMany("Questions")
-                        .HasForeignKey("TestId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TestId");
 
                     b.Navigation("Test");
                 });
@@ -510,9 +493,7 @@ namespace DL.Migrations
                 {
                     b.HasOne("Core.Models.Organization", "Organization")
                         .WithMany("Lecturers")
-                        .HasForeignKey("OrganizationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OrganizationId");
 
                     b.Navigation("Organization");
                 });

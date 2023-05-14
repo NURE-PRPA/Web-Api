@@ -8,7 +8,7 @@ namespace Core.Models;
 
 public class Ban
 {
-    public int Id { get; set; }
+    public string Id { get; set; }
     public string Reason { get; set; }
     public bool IsActive { get; set; }
     public DateTime Date { get; set; }
