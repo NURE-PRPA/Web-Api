@@ -30,10 +30,8 @@ public class ProfileController : ControllerBase
         
         var email = _context.User.Claims
             .FirstOrDefault(c => c.Type == "email").Value;
-        // var userType = this._accessor.HttpContext.User.Claims
-        //     .FirstOrDefault(c => c.Type == "userType").Value;
-
-        var userType = "listener"; // just a temporary hard coding solution
+        var userType = _context.User.Claims
+            .FirstOrDefault(c => c.Type == "userType").Value;
         
         Console.WriteLine("email: " + email);
         Console.WriteLine("user type: " + userType);

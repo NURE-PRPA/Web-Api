@@ -10,7 +10,7 @@ using Mysqlx;
 namespace WebAPI.Controllers;
 
 [ApiController]
-[Microsoft.AspNetCore.Mvc.Route("api/courses")]
+[Route("api/courses")]
 public class CoursesController : ControllerBase
 {
     private QuantEdDbContext _dbContext;
@@ -53,7 +53,30 @@ public class CoursesController : ControllerBase
             return Ok(new Response<Course>(OperationResult.OK, course, "Course load successful"));
         });
     }
-    
+
+    [AllowAnonymous]
+    [HttpGet]
+    [Route("modules/{id:int}")]
+    public async Task<ActionResult> GetModule(string id)
+    {
+        return await Task.Run(() =>
+        {
+            var module = _dbContext.Modules
+                .Include(m => m.Test)
+                .Include(m => m.Course)
+                .Include(m => m.ContentContainers)
+                .FirstOrDefault(m => m.Id == id);
+
+            if(module == null)
+                return Ok(new Response<object>(OperationResult.ERROR, "Module load error"));
+            else
+            {
+                module.RemoveCycles();
+                return Ok(new Response<CourseModule>(OperationResult.OK, module, "Module load successful"));
+            }
+        });
+    }
+
     [HttpGet]
     [Route("authorize/{courseId:int}")]
     public async Task<ActionResult> IsCourseAcquired(string courseId)

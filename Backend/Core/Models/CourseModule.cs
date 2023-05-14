@@ -15,4 +15,12 @@ public class CourseModule
     public Test Test { get; set; }
     public Course Course { get; set; }
     public List<ContentContainer> ContentContainers { get; set; }
+    public void RemoveCycles()
+    {
+        if (Test != null)
+            Test.Module = null;
+        Course.Modules = null;
+        foreach (var container in ContentContainers)
+            container.Module = null;
+    }
 }

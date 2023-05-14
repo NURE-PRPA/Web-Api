@@ -21,7 +21,7 @@ public class AuthService : IAuthService
         this._userService = userService;
         this._identityService = identityService;
     }
-    public async Task<bool> Login(AbstractUser user)
+    public async Task<string> Login(AbstractUser user)
     {
         // if (IsAuthenticated())
         // {
@@ -29,8 +29,13 @@ public class AuthService : IAuthService
         // }
         
         AbstractUser dbUser = await _userService.ReadUser(user);
+
+        if(dbUser.Password != user.Password)
+        {
+            return "Wrong password";
+        }
         
-        if (!dbUser.Equals(null))
+        if (dbUser != null)
         {
             ClaimsIdentity identity = _identityService.GetIdentity(dbUser);
             
@@ -39,10 +44,10 @@ public class AuthService : IAuthService
                 IsPersistent = true
             });
 
-            return true;
+            return "Log in success";
         }
 
-        return false;
+        return "User does not exist";
     }
 
     public bool IsAuthenticated()
@@ -71,7 +76,7 @@ public class AuthService : IAuthService
         {
             if (isGoogle)
             {
-                return await this.Login(user) ? "logged in" : "login failed";
+                return await Login(user);
             }
             else
             {
@@ -88,12 +93,14 @@ public class AuthService : IAuthService
         try
         {
             var email = _ctx.User.Claims
-                .FirstOrDefault(c => c.Type == "email").Value;
+                .FirstOrDefault(c => c.Type == "email")
+                .Value;
 
-            // var userType = _ctx.User.Claims
-            //     .FirstOrDefault(c => c.Type == "userType").Value;
+            var userType = _ctx.User.Claims
+                .FirstOrDefault(c => c.Type == "userType")
+                .Value;
 
-            return (email, "listener");
+            return (email, userType);
         }
         catch
         {

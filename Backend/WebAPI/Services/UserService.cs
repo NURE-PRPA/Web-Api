@@ -42,7 +42,7 @@ public class UserService : IUserService
     public async Task<AbstractUser> ReadUser(string email, string userType)
     {
         if (string.IsNullOrEmpty(email))
-            throw new ArgumentException("email was not provided");
+            throw new ArgumentException("Email was not provided");
 
         if (userType == "listener")
         {
@@ -142,7 +142,7 @@ public class UserService : IUserService
     public List<Subscription> GetListenerSubscriptions(string email)
     {
         if (string.IsNullOrEmpty(email))
-            throw new ArgumentException("email was not provided");
+            throw new ArgumentException("Email was not provided");
 
         return _dbContext.Listeners
             .Include(u => u.Subscriptions)
@@ -154,7 +154,7 @@ public class UserService : IUserService
     public IQueryable<List<Course>> GetLecturerCourses(string email)
     {
         if (string.IsNullOrEmpty(email))
-            throw new ArgumentException("email was not provided!");
+            throw new ArgumentException("Email was not provided!");
 
         return _dbContext.Lecturers
             .Include(l => l.Courses)

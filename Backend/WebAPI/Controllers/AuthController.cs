@@ -7,7 +7,7 @@ using WebAPI.Services.Abstractions;
 
 namespace WebAPI.Controllers;
 
-[System.Web.Http.Authorize]
+//[System.Web.Http.Authorize]
 [ApiController]
 [Route("api/auth")]
 public class AuthController : ControllerBase
@@ -74,11 +74,11 @@ public class AuthController : ControllerBase
             return BadRequest("Empty user provided!");
 
         if (string.IsNullOrEmpty(loginUser.Email))
-            eb.Append("email was not provided:");
+            eb.Append("Email was not provided:");
         if (string.IsNullOrEmpty(loginUser.Password))
             eb.Append("Password was not provided:");
         if (string.IsNullOrEmpty(loginUser.UserType))
-            eb.Append("user type was not provided:");
+            eb.Append("User type was not provided:");
 
         if (eb.Length > 0)
             eb.Remove(eb.Length - 1, 1);
@@ -107,9 +107,16 @@ public class AuthController : ControllerBase
             };
         }
 
-        return (await _auth.Login(user)) ? 
-            Ok(new Response<object>(OperationResult.OK, "Logged in!")) : 
-            Ok(new Response<object>(OperationResult.ERROR, "failed to log in!"));
+        var operationResult = await _auth.Login(user);
+
+        if (operationResult == "Log in success")
+            return Ok(new Response<object>(OperationResult.OK, operationResult));
+        else
+            return Ok(new Response<object>(OperationResult.ERROR, operationResult));
+
+        //return (await _auth.Login(user)) ? 
+        //    Ok(new Response<object>(OperationResult.OK, "Logged in!")) : 
+        //    Ok(new Response<object>(OperationResult.ERROR, "failed to log in!"));
     }
 
     // POST api/auth/logout
