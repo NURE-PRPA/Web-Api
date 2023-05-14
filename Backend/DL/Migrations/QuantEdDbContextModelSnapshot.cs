@@ -150,7 +150,14 @@ namespace DL.Migrations
                     b.Property<byte>("Mark")
                         .HasColumnType("tinyint unsigned");
 
+                    b.Property<string>("SubscriptionId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("SubscriptionId")
+                        .IsUnique();
 
                     b.ToTable("Certificates");
                 });
@@ -344,11 +351,18 @@ namespace DL.Migrations
                     b.Property<byte>("Duration")
                         .HasColumnType("tinyint unsigned");
 
+                    b.Property<string>("ModuleId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ModuleId")
+                        .IsUnique();
 
                     b.ToTable("Tests");
                 });
@@ -405,7 +419,7 @@ namespace DL.Migrations
                 {
                     b.HasOne("Core.Models.Subscription", "Subscription")
                         .WithOne("Certificate")
-                        .HasForeignKey("Core.Models.Certificate", "Id")
+                        .HasForeignKey("Core.Models.Certificate", "SubscriptionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -482,7 +496,7 @@ namespace DL.Migrations
                 {
                     b.HasOne("Core.Models.CourseModule", "Module")
                         .WithOne("Test")
-                        .HasForeignKey("Core.Models.Test", "Id")
+                        .HasForeignKey("Core.Models.Test", "ModuleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

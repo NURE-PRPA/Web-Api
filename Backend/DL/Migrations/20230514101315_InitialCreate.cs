@@ -238,14 +238,15 @@ namespace DL.Migrations
                 {
                     Id = table.Column<string>(type: "varchar(255)", nullable: false),
                     Name = table.Column<string>(type: "longtext", nullable: false),
-                    Duration = table.Column<byte>(type: "tinyint unsigned", nullable: false)
+                    Duration = table.Column<byte>(type: "tinyint unsigned", nullable: false),
+                    ModuleId = table.Column<string>(type: "varchar(255)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tests", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Tests_Modules_Id",
-                        column: x => x.Id,
+                        name: "FK_Tests_Modules_ModuleId",
+                        column: x => x.ModuleId,
                         principalTable: "Modules",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -258,14 +259,15 @@ namespace DL.Migrations
                 {
                     Id = table.Column<string>(type: "varchar(255)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Mark = table.Column<byte>(type: "tinyint unsigned", nullable: false)
+                    Mark = table.Column<byte>(type: "tinyint unsigned", nullable: false),
+                    SubscriptionId = table.Column<string>(type: "varchar(255)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Certificates", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Certificates_Subscriptions_Id",
-                        column: x => x.Id,
+                        name: "FK_Certificates_Subscriptions_SubscriptionId",
+                        column: x => x.SubscriptionId,
                         principalTable: "Subscriptions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -349,6 +351,12 @@ namespace DL.Migrations
                 column: "ListenerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Certificates_SubscriptionId",
+                table: "Certificates",
+                column: "SubscriptionId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Containers_ModuleId",
                 table: "Containers",
                 column: "ModuleId");
@@ -387,6 +395,12 @@ namespace DL.Migrations
                 name: "IX_Subscriptions_ListenerId",
                 table: "Subscriptions",
                 column: "ListenerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tests_ModuleId",
+                table: "Tests",
+                column: "ModuleId",
+                unique: true);
         }
 
         /// <inheritdoc />

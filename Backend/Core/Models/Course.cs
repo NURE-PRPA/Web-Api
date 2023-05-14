@@ -18,4 +18,21 @@ public class Course
     public Lecturer Lecturer { get; set; }
     public List<CourseModule> Modules { get; set; }
     public List<Subscription> Subscriptions { get; set; }
+    public void RemoveCycles()
+    {
+        if(Lecturer != null)
+            Lecturer.Courses = null;
+
+        if(Modules != null)
+        {
+            foreach (var module in Modules)
+                module.Course = null;
+        }
+
+        if (Subscriptions != null)
+        {
+            foreach (var subscription in Subscriptions)
+                subscription.Course = null;
+        }
+    }
 }

@@ -46,12 +46,12 @@ namespace DL
             modelBuilder.Entity<Subscription>()
             .HasOne(s => s.Certificate)
             .WithOne(c => c.Subscription)
-            .HasForeignKey<Certificate>(s => s.Id);
+            .HasForeignKey<Certificate>(s => s.SubscriptionId);
 
             modelBuilder.Entity<CourseModule>()
             .HasOne(m => m.Test)
             .WithOne(t => t.Module)
-            .HasForeignKey<Test>(m => m.Id);
+            .HasForeignKey<Test>(m => m.ModuleId);
 
             modelBuilder.Entity<AbstractUser>().UseTpcMappingStrategy();
 

@@ -19,8 +19,14 @@ public class CourseModule
     {
         if (Test != null)
             Test.Module = null;
-        Course.Modules = null;
-        foreach (var container in ContentContainers)
-            container.Module = null;
+
+        if(Course != null)
+            Course.Modules = null;
+
+        if (ContentContainers != null)
+        {
+            foreach (var container in ContentContainers)
+                container.Module = null;
+        }
     }
 }

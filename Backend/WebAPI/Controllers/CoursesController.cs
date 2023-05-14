@@ -46,33 +46,15 @@ public class CoursesController : ControllerBase
         {
             var course = _dbContext.Courses
                 .Include(c => c.Lecturer)
+                .Include(c => c.Modules)
                 .FirstOrDefault(c => c.Id == id);
 
-            course.Lecturer.Courses = null;
-
-            return Ok(new Response<Course>(OperationResult.OK, course, "Course load successful"));
-        });
-    }
-
-    [AllowAnonymous]
-    [HttpGet]
-    [Route("modules/{id:int}")]
-    public async Task<ActionResult> GetModule(string id)
-    {
-        return await Task.Run(() =>
-        {
-            var module = _dbContext.Modules
-                .Include(m => m.Test)
-                .Include(m => m.Course)
-                .Include(m => m.ContentContainers)
-                .FirstOrDefault(m => m.Id == id);
-
-            if(module == null)
-                return Ok(new Response<object>(OperationResult.ERROR, "Module load error"));
+            if (course == null)
+                return Ok(new Response<object>(OperationResult.ERROR, "Course load error"));
             else
             {
-                module.RemoveCycles();
-                return Ok(new Response<CourseModule>(OperationResult.OK, module, "Module load successful"));
+                course.RemoveCycles();
+                return Ok(new Response<Course>(OperationResult.OK, course, "Course load successful"));
             }
         });
     }
