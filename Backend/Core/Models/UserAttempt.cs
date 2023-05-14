@@ -19,4 +19,9 @@ public class UserAttempt
     
     [JsonIgnore] public Subscription? Subscription { get; set; }
     [JsonIgnore] public Test? Test { get; set; }
+    public void SetInitialData()
+    {
+        Id = Guid.NewGuid().ToString();
+        TimeStamp = DateTime.Now;
+    }
 }

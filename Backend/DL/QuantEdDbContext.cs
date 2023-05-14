@@ -55,6 +55,10 @@ namespace DL
 
             modelBuilder.Entity<AbstractUser>().UseTpcMappingStrategy();
 
+            //modelBuilder.Entity<Lecturer>()
+            //.HasOne(l => l.Organization)
+            //.WithMany(o => o.Lecturers);
+
             //modelBuilder.Entity<AbstractUser>().HasKey(e => e.Id);
             //modelBuilder.Entity<Administrator>().HasKey(e => e.Id);
             //modelBuilder.Entity<Answer>().HasKey(e => e.Id);

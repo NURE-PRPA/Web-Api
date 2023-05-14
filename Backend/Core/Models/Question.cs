@@ -14,4 +14,8 @@ public class Question
     public QuestionType Type { get; set; }
     public Test Test { get; set; }
     public List<Answer> Answers { get; set; }
+    public void SetInitialData()
+    {
+        Id = Guid.NewGuid().ToString();
+    }
 }

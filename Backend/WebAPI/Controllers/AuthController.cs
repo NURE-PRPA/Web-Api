@@ -40,7 +40,7 @@ public class AuthController : ControllerBase
     {
         var isGoogle = type == "google";
 
-        if (user.Equals(null))
+        if (user == null)
             return BadRequest("Empty user provided!");
 
         return Ok(await _auth.Register(user, isGoogle));
@@ -54,7 +54,7 @@ public class AuthController : ControllerBase
     {
         var isGoogle = type == "google";
 
-        if (user.Equals(null))
+        if (user == null)
             return BadRequest("Empty user provided!");
 
         return Ok(await _auth.Register(user, isGoogle));

@@ -13,4 +13,9 @@ public class Certificate
     public byte Mark { get; set; }
     public string SubscriptionId { get; set; }
     public Subscription Subscription { get; set; }
+    public void SetInitialData()
+    {
+        Id = Guid.NewGuid().ToString();
+        Date = DateTime.Now;
+    }
 }

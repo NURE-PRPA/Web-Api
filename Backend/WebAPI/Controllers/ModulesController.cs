@@ -46,4 +46,23 @@ public class ModulesController : ControllerBase
             }
         });
     }
+
+    [HttpPost]
+    [Route("add")]
+    public async Task<ActionResult> AddModule(CourseModule module)
+    {
+        if (module == null)
+            return Ok(new Response<object>(OperationResult.ERROR, "Empty module"));
+
+        module.SetInitialData();
+
+        module.Course = _dbContext.Courses.FirstOrDefault(c => c.Id == module.Course.Id);
+
+        await _dbContext.AddAsync(module);
+        await _dbContext.SaveChangesAsync();
+
+        module.RemoveCycles();
+
+        return Ok(new Response<CourseModule>(OperationResult.OK, module, "Course added successfully"));
+    }
 }

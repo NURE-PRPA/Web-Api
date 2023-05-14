@@ -75,4 +75,23 @@ public class CoursesController : ControllerBase
         
         return Ok(new Response<bool>(OperationResult.OK, isAuthorized));
     }
+
+    [HttpPost]
+    [Route("add")]
+    public async Task<ActionResult> AddCourse(Course course)
+    {
+        if (course == null)
+            return Ok(new Response<object>(OperationResult.ERROR, "Empty course"));
+
+        course.SetInitialData();
+
+        course.Lecturer = _dbContext.Lecturers.FirstOrDefault(l => l.Id == course.Lecturer.Id);
+
+        await _dbContext.AddAsync(course);
+        await _dbContext.SaveChangesAsync();
+
+        course.RemoveCycles();
+
+        return Ok(new Response<Course>(OperationResult.OK, course, "Course added successfully"));
+    }
 }

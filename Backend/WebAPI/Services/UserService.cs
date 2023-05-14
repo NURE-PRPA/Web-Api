@@ -24,7 +24,7 @@ public class UserService : IUserService
 
     public async Task<AbstractUser> ReadUser(AbstractUser user)
     {
-        if (user.Equals(null))
+        if (user == null)
             return null;
         
         if (user is Listener)
@@ -58,7 +58,7 @@ public class UserService : IUserService
 
     public async Task<bool> DeleteUser(AbstractUser user)
     {
-        if (user.Equals(null))
+        if (user == null)
             return false;
         
         try
@@ -86,20 +86,24 @@ public class UserService : IUserService
 
     public async Task<bool> AddUser(AbstractUser user)
     {
-        if (user.Equals(null))
+        if (user == null)
             return false;
         try
         {
+            user.SetInitialData();
+
             if (user is Listener)
             {
-                await _dbContext.Listeners.AddAsync(user as Listener);
+                await _dbContext.AddAsync(user as Listener);
                 await _dbContext.SaveChangesAsync();
 
                 return true;
             }
             else
             {
-                await _dbContext.Lecturers.AddAsync(user as Lecturer);
+                var lecturer = user as Lecturer;
+                lecturer.Organization = _dbContext.Organizations.FirstOrDefault(o => o.Id == lecturer.Organization.Id);
+                await _dbContext.AddAsync(lecturer);
                 await _dbContext.SaveChangesAsync();
 
                 return true;
@@ -113,7 +117,7 @@ public class UserService : IUserService
 
     public async Task<bool> UpdateUser(AbstractUser user)
     {
-        if (user.Equals(null))
+        if (user == null)
             return false;
         
         try

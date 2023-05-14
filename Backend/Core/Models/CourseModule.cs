@@ -12,7 +12,7 @@ public class CourseModule
     public string Name { get; set; }
     public string Description { get; set; }
     public TimeSpan Estimate { get; set; }
-    public Test Test { get; set; }
+    public Test? Test { get; set; }
     public Course Course { get; set; }
     public List<ContentContainer> ContentContainers { get; set; }
     public void RemoveCycles()
@@ -28,5 +28,9 @@ public class CourseModule
             foreach (var container in ContentContainers)
                 container.Module = null;
         }
+    }
+    public void SetInitialData()
+    {
+        Id = Guid.NewGuid().ToString();
     }
 }

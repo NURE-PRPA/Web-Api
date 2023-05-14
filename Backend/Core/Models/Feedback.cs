@@ -13,4 +13,9 @@ public class Feedback
     public byte Stars { get; set; }
     public DateTime Date { get; set; }
     public Subscription Subscription { get; set; }
+    public void SetInitialData()
+    {
+        Id = Guid.NewGuid().ToString();
+        Date = DateTime.Now;
+    }
 }

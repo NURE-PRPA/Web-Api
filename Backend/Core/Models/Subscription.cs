@@ -18,4 +18,9 @@ public class Subscription
     public List<Feedback> Feedbacks { get; set; }
     
     [NotMapped] public List<UserAttempt> UserAttempts { get; set; }
+    public void SetInitialData()
+    {
+        Id = Guid.NewGuid().ToString();
+        Date = DateTime.Now;
+    }
 }

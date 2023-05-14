@@ -29,4 +29,8 @@ public class Test
                 question.Test = null;
         }
     }
+    public void SetInitialData()
+    {
+        Id = Guid.NewGuid().ToString();
+    }
 }

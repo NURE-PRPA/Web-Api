@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Core.Enums;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Core.Models;
 
@@ -34,5 +35,9 @@ public class Course
             foreach (var subscription in Subscriptions)
                 subscription.Course = null;
         }
+    }
+    public void SetInitialData()
+    {
+        Id = Guid.NewGuid().ToString();
     }
 }

@@ -14,4 +14,9 @@ public class Ban
     public DateTime Date { get; set; }
     public Listener Listener { get; set; }
     public Administrator Administrator { get; set; }
+    public void SetInitialData()
+    {
+        Id = Guid.NewGuid().ToString();
+        Date = DateTime.Now;
+    }
 }
