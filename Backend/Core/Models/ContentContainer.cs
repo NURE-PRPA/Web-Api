@@ -14,7 +14,7 @@ public class ContentContainer
     public DateTime Date { get; set; }
     public byte[] Binary { get; set; }
     public CourseModule Module { get; set; }
-    public void SetInitialData()
+    public void InitializeEntity()
     {
         Id = Guid.NewGuid().ToString();
         Date = DateTime.Now;

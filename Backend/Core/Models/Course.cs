@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Core.Enums;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Core.Models;
 
@@ -16,6 +15,7 @@ public class Course
     public CourseDifficulty Difficulty { get; set; }
     public byte Price { get; set; }
     public CourseTopic Topic { get; set; }
+    public DateTime Date { get; set; }
     public Lecturer Lecturer { get; set; }
     public List<CourseModule> Modules { get; set; }
     public List<Subscription> Subscriptions { get; set; }
@@ -36,8 +36,9 @@ public class Course
                 subscription.Course = null;
         }
     }
-    public void SetInitialData()
+    public void InitializeEntity()
     {
         Id = Guid.NewGuid().ToString();
+        //Date = DateTime.Now;
     }
 }

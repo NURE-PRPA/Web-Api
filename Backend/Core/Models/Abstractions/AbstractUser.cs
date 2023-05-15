@@ -19,7 +19,7 @@ public class AbstractUser
     public DateTime Date { get; set; }
     public long GoogleId { get; set; }
     public string Password { get; set; }
-    public void SetInitialData()
+    public void InitializeEntity()
     {
         Id = Guid.NewGuid().ToString();
         Date = DateTime.Now;

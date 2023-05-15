@@ -21,7 +21,7 @@ public class AuthService : IAuthService
         this._userService = userService;
         this._identityService = identityService;
     }
-    public async Task<string> Login(AbstractUser user)
+    public async Task<string> Login(AbstractUser user, bool isGoogle)
     {
         // if (IsAuthenticated())
         // {
@@ -30,10 +30,12 @@ public class AuthService : IAuthService
         
         AbstractUser dbUser = await _userService.ReadUser(user);
 
-        if(dbUser.Password != user.Password)
+        if(!isGoogle && dbUser.Password != user.Password)
         {
             return "Wrong password";
         }
+
+        user.Password = dbUser.Password;
         
         if (dbUser != null)
         {
@@ -76,7 +78,7 @@ public class AuthService : IAuthService
         {
             if (isGoogle)
             {
-                return await Login(user);
+                return await Login(user, isGoogle);
             }
             else
             {
@@ -85,7 +87,10 @@ public class AuthService : IAuthService
         }
         else
         {
-           return (await _userService.AddUser(user)) ? "OK" : "Register failed";
+            var result = (await _userService.AddUser(user)) ? "Register success" : "Register failed";
+            if (result == "Register success")
+                await Login(user, isGoogle);
+            return result;
         }
     }
     public (string Email, string UserType) GetCookieAuthInfo()

@@ -16,7 +16,7 @@ public class Administrator
     public DateTime Date { get; set; }
     public string Password { get; set; }
     public List<Ban> Bans { get; set; }
-    public void SetInitialData()
+    public void InitializeEntity()
     {
         Id = Guid.NewGuid().ToString();
         Date = DateTime.Now;

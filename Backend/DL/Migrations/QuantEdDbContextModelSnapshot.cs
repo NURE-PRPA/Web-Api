@@ -197,6 +197,9 @@ namespace DL.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("varchar(255)");
 
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -528,8 +531,7 @@ namespace DL.Migrations
                 {
                     b.Navigation("ContentContainers");
 
-                    b.Navigation("Test")
-                        .IsRequired();
+                    b.Navigation("Test");
                 });
 
             modelBuilder.Entity("Core.Models.Organization", b =>

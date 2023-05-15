@@ -39,7 +39,7 @@ public class CoursesController : ControllerBase
     
     [AllowAnonymous]
     [HttpGet]
-    [Route("{id:int}")]
+    [Route("{id}")]
     public async Task<ActionResult> GetCourse(string id)
     {
         return await Task.Run(() =>
@@ -83,7 +83,7 @@ public class CoursesController : ControllerBase
         if (course == null)
             return Ok(new Response<object>(OperationResult.ERROR, "Empty course"));
 
-        course.SetInitialData();
+        course.InitializeEntity();
 
         course.Lecturer = _dbContext.Lecturers.FirstOrDefault(l => l.Id == course.Lecturer.Id);
 

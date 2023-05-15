@@ -147,6 +147,7 @@ namespace DL.Migrations
                     Difficulty = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<byte>(type: "tinyint unsigned", nullable: false),
                     Topic = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     LecturerId = table.Column<string>(type: "varchar(255)", nullable: true)
                 },
                 constraints: table =>

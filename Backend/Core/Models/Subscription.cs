@@ -18,7 +18,7 @@ public class Subscription
     public List<Feedback> Feedbacks { get; set; }
     
     [NotMapped] public List<UserAttempt> UserAttempts { get; set; }
-    public void SetInitialData()
+    public void InitializeEntity()
     {
         Id = Guid.NewGuid().ToString();
         Date = DateTime.Now;

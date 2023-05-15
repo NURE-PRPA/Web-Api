@@ -9,7 +9,7 @@ namespace WebAPI.Services.Abstractions;
 
 public interface IAuthService
 {
-    public Task<string> Login(AbstractUser user);
+    public Task<string> Login(AbstractUser user, bool isGoogle = false);
     public bool IsAuthenticated();
     public Task LogOut();
     public Task<string> Register(AbstractUser user, bool isGoogle = false);

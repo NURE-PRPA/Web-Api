@@ -54,7 +54,7 @@ public class ModulesController : ControllerBase
         if (module == null)
             return Ok(new Response<object>(OperationResult.ERROR, "Empty module"));
 
-        module.SetInitialData();
+        module.InitializeEntity();
 
         module.Course = _dbContext.Courses.FirstOrDefault(c => c.Id == module.Course.Id);
 

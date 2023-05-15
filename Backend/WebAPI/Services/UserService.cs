@@ -90,7 +90,7 @@ public class UserService : IUserService
             return false;
         try
         {
-            user.SetInitialData();
+            user.InitializeEntity();
 
             if (user is Listener)
             {

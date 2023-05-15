@@ -64,8 +64,11 @@ public class AuthController : ControllerBase
     [AllowAnonymous]
     [HttpPost]
     [Route("login")]
+    //[Route("login/{type:alpha?}")]
     public async Task<ActionResult<string>> LogIn([FromBody] LoginUser loginUser)
     {
+        //var isGoogle = type == "google";
+
         var eb = new StringBuilder();
         
         Console.WriteLine($"E: {loginUser.Email}; P: {loginUser.Password}; T: {loginUser.UserType}");
@@ -73,16 +76,19 @@ public class AuthController : ControllerBase
         if (loginUser == null)
             return BadRequest("Empty user provided!");
 
-        if (string.IsNullOrEmpty(loginUser.Email))
-            eb.Append("Email was not provided:");
-        if (string.IsNullOrEmpty(loginUser.Password))
-            eb.Append("Password was not provided:");
-        if (string.IsNullOrEmpty(loginUser.UserType))
-            eb.Append("User type was not provided:");
+        //if (!isGoogle)
+        //{
+            if (string.IsNullOrEmpty(loginUser.Email))
+                eb.Append("Email was not provided:");
+            if (string.IsNullOrEmpty(loginUser.Password))
+                eb.Append("Password was not provided:");
+            if (string.IsNullOrEmpty(loginUser.UserType))
+                eb.Append("User type was not provided:");
+        //}
 
         if (eb.Length > 0)
             eb.Remove(eb.Length - 1, 1);
-        
+
         Console.WriteLine(eb.ToString());
 
         if (eb.Length > 0)
@@ -107,7 +113,7 @@ public class AuthController : ControllerBase
             };
         }
 
-        var operationResult = await _auth.Login(user);
+        var operationResult = await _auth.Login(user, false);
 
         if (operationResult == "Log in success")
             return Ok(new Response<object>(OperationResult.OK, operationResult));

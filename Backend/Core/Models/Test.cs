@@ -26,11 +26,16 @@ public class Test
         if(Questions != null)
         {
             foreach (var question in Questions)
-                question.Test = null;
+                question.RemoveCycles();
         }
     }
-    public void SetInitialData()
+    public void InitializeEntity()
     {
         Id = Guid.NewGuid().ToString();
+        if(Questions != null)
+        {
+            foreach(var question in Questions)
+                question.InitializeEntity();
+        }
     }
 }

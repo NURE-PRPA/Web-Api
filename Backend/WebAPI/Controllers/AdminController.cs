@@ -24,12 +24,11 @@ public class AdminController : ControllerBase
         _userService = userService;
     }
 
-    [AllowAnonymous]
     [HttpPost]
     [Route("add/organization")]
     public async Task<ActionResult> AddOrganization(Organization organization)
     {
-        organization.SetInitialData();
+        organization.InitializeEntity();
 
         await _dbContext.Organizations.AddAsync(organization);
         await _dbContext.SaveChangesAsync();

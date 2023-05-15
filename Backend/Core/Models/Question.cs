@@ -14,8 +14,22 @@ public class Question
     public QuestionType Type { get; set; }
     public Test Test { get; set; }
     public List<Answer> Answers { get; set; }
-    public void SetInitialData()
+    public void RemoveCycles()
+    {
+        Test = null;
+        if(Answers != null)
+        {
+            foreach(var answer in Answers)
+                answer.RemoveCycles();
+        }
+    }
+    public void InitializeEntity()
     {
         Id = Guid.NewGuid().ToString();
+        if(Answers != null)
+        {
+            foreach(var answer in Answers)
+                answer.InitializeEntity();
+        }
     }
 }

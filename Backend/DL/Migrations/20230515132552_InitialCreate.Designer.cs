@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DL.Migrations
 {
     [DbContext(typeof(QuantEdDbContext))]
-    [Migration("20230514113000_InitialCreate")]
+    [Migration("20230515132552_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -199,6 +199,9 @@ namespace DL.Migrations
                 {
                     b.Property<string>("Id")
                         .HasColumnType("varchar(255)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -531,8 +534,7 @@ namespace DL.Migrations
                 {
                     b.Navigation("ContentContainers");
 
-                    b.Navigation("Test")
-                        .IsRequired();
+                    b.Navigation("Test");
                 });
 
             modelBuilder.Entity("Core.Models.Organization", b =>

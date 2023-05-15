@@ -29,7 +29,7 @@ public class CourseModule
                 container.Module = null;
         }
     }
-    public void SetInitialData()
+    public void InitializeEntity()
     {
         Id = Guid.NewGuid().ToString();
     }
