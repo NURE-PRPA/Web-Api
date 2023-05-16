@@ -13,8 +13,8 @@ public class UserAttempt
 {
     public string Id { get; set; }
     public byte Mark { get; set; }
-    public int SubscriptionId { get; set; }
-    public int TestId { get; set; }
+    public string SubscriptionId { get; set; }
+    public string TestId { get; set; }
     public DateTime TimeStamp { get; set; }
     
     [JsonIgnore] public Subscription? Subscription { get; set; }

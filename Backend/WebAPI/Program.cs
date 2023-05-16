@@ -23,6 +23,10 @@ builder.Services.AddCors(opt =>
 // Add services to the container.
 //var connectionString = builder.Configuration.GetConnectionString("MyLittleSnus");
 var connectionString = builder.Configuration.GetConnectionString("Sentinel");
+//var connectionString = builder.Configuration.GetConnectionString("Anastasiia");
+//var connectionString = builder.Configuration.GetConnectionString("VasyokMcT4wer");
+//var connectionString = builder.Configuration.GetConnectionString("NoNamesNoGames");
+//var connectionString = builder.Configuration.GetConnectionString("DeGrand");
 
 builder.Services.AddControllers();
 builder.Services.AddAuthentication("cookie").AddCookie("cookie");
