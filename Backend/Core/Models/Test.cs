@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Core.Models;
@@ -13,15 +14,15 @@ public class Test
     public string Name { get; set; }
     public byte Duration { get; set; }
     public string ModuleId { get; set; }
-    public CourseModule Module { get; set; }
+    [JsonIgnore]public CourseModule Module { get; set; }
     public List<Question> Questions { get; set; }
     
     [NotMapped] public List<UserAttempt> UserAttempts { get; set; }
 
     public void RemoveCycles()
     {
-        if (Module != null)
-            Module.Test = null;
+        //if (Module != null)
+        //    Module.Test = null;
 
         if(Questions != null)
         {

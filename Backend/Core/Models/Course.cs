@@ -22,12 +22,12 @@ public class Course
     public void RemoveCycles()
     {
         if(Lecturer != null)
-            Lecturer.Courses = null;
+            Lecturer.RemoveCycles();
 
         if(Modules != null)
         {
             foreach (var module in Modules)
-                module.Course = null;
+                module.RemoveCycles();
         }
 
         if (Subscriptions != null)
@@ -39,6 +39,6 @@ public class Course
     public void InitializeEntity()
     {
         Id = Guid.NewGuid().ToString();
-        //Date = DateTime.Now;
+        Date = DateTime.Now;
     }
 }

@@ -97,15 +97,25 @@ public class AuthService : IAuthService
     {
         try
         {
-            var email = _ctx.User.Claims
-                .FirstOrDefault(c => c.Type == "email")
-                .Value;
+            if(_ctx.User != null && _ctx.User.Claims != null)
+            {
+                var emailClaim = _ctx.User.Claims
+                .FirstOrDefault(c => c.Type == "email");
+                var userTypeClaim = _ctx.User.Claims
+                .FirstOrDefault(c => c.Type == "userType");
 
-            var userType = _ctx.User.Claims
-                .FirstOrDefault(c => c.Type == "userType")
-                .Value;
+                string email = null;
+                string userType = null;
+                if(emailClaim != null)
+                 email = emailClaim.Value;
 
-            return (email, userType);
+                if (userTypeClaim != null)
+                    userType = userTypeClaim.Value;
+
+
+                return (email, userType);
+            }
+            return (null, null);
         }
         catch
         {

@@ -56,7 +56,7 @@ public class ModulesController : ControllerBase
 
         module.InitializeEntity();
 
-        module.Course = _dbContext.Courses.FirstOrDefault(c => c.Id == module.Course.Id);
+        module.Course = _dbContext.Courses.FirstOrDefault(c => c.Id == module.CourseId);
 
         await _dbContext.AddAsync(module);
         await _dbContext.SaveChangesAsync();

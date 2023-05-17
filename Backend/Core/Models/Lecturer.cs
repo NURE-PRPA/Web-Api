@@ -11,11 +11,18 @@ public class Lecturer : AbstractUser
 {
     public byte Experience { get; set; }
     //public string OrganizationId { get; set; }
-    public Organization? Organization { get; set; }
+    public Organization Organization { get; set; }
     public List<Course>? Courses { get; set; }
 
     public Lecturer()
     {
         
+    }
+
+    public void RemoveCycles()
+    {
+        if(Organization != null)
+            Organization.Lecturers = null;
+        Courses = null;
     }
 }

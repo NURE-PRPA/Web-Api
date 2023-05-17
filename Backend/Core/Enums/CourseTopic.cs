@@ -10,12 +10,9 @@ public enum CourseTopic
 {
     None = 0,
     Programming = 1,
-    Mathematics = 2,
+    Calculus = 2,
     Physics = 3,
     Chemistry = 4,
-    Engineering = 5,
-    Languages = 6,
-    Biology = 7,
-    Economy = 8,
-    Geography = 9
+    English = 5,
+    Geography = 6
 }

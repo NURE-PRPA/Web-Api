@@ -52,7 +52,7 @@ namespace DL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AbstractUser");
+                    b.ToTable("AbstractUser", (string)null);
 
                     b.UseTpcMappingStrategy();
                 });
@@ -83,7 +83,7 @@ namespace DL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Administrators");
+                    b.ToTable("Administrators", (string)null);
                 });
 
             modelBuilder.Entity("Core.Models.Answer", b =>
@@ -105,7 +105,7 @@ namespace DL.Migrations
 
                     b.HasIndex("QuestionId");
 
-                    b.ToTable("Answers");
+                    b.ToTable("Answers", (string)null);
                 });
 
             modelBuilder.Entity("Core.Models.Ban", b =>
@@ -136,7 +136,7 @@ namespace DL.Migrations
 
                     b.HasIndex("ListenerId");
 
-                    b.ToTable("Bans");
+                    b.ToTable("Bans", (string)null);
                 });
 
             modelBuilder.Entity("Core.Models.Certificate", b =>
@@ -159,7 +159,7 @@ namespace DL.Migrations
                     b.HasIndex("SubscriptionId")
                         .IsUnique();
 
-                    b.ToTable("Certificates");
+                    b.ToTable("Certificates", (string)null);
                 });
 
             modelBuilder.Entity("Core.Models.ContentContainer", b =>
@@ -189,7 +189,7 @@ namespace DL.Migrations
 
                     b.HasIndex("ModuleId");
 
-                    b.ToTable("Containers");
+                    b.ToTable("Containers", (string)null);
                 });
 
             modelBuilder.Entity("Core.Models.Course", b =>
@@ -224,7 +224,7 @@ namespace DL.Migrations
 
                     b.HasIndex("LecturerId");
 
-                    b.ToTable("Courses");
+                    b.ToTable("Courses", (string)null);
                 });
 
             modelBuilder.Entity("Core.Models.CourseModule", b =>
@@ -240,18 +240,21 @@ namespace DL.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<TimeSpan>("Estimate")
-                        .HasColumnType("time(6)");
+                    b.Property<byte>("Estimate")
+                        .HasColumnType("tinyint unsigned");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<byte>("Position")
+                        .HasColumnType("tinyint unsigned");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("Modules");
+                    b.ToTable("Modules", (string)null);
                 });
 
             modelBuilder.Entity("Core.Models.Feedback", b =>
@@ -276,7 +279,7 @@ namespace DL.Migrations
 
                     b.HasIndex("SubscriptionId");
 
-                    b.ToTable("Feedbacks");
+                    b.ToTable("Feedbacks", (string)null);
                 });
 
             modelBuilder.Entity("Core.Models.Organization", b =>
@@ -293,7 +296,7 @@ namespace DL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Organizations");
+                    b.ToTable("Organizations", (string)null);
                 });
 
             modelBuilder.Entity("Core.Models.Question", b =>
@@ -315,7 +318,7 @@ namespace DL.Migrations
 
                     b.HasIndex("TestId");
 
-                    b.ToTable("Questions");
+                    b.ToTable("Questions", (string)null);
                 });
 
             modelBuilder.Entity("Core.Models.Subscription", b =>
@@ -343,7 +346,7 @@ namespace DL.Migrations
 
                     b.HasIndex("ListenerId");
 
-                    b.ToTable("Subscriptions");
+                    b.ToTable("Subscriptions", (string)null);
                 });
 
             modelBuilder.Entity("Core.Models.Test", b =>
@@ -367,7 +370,7 @@ namespace DL.Migrations
                     b.HasIndex("ModuleId")
                         .IsUnique();
 
-                    b.ToTable("Tests");
+                    b.ToTable("Tests", (string)null);
                 });
 
             modelBuilder.Entity("Core.Models.Lecturer", b =>
@@ -382,14 +385,14 @@ namespace DL.Migrations
 
                     b.HasIndex("OrganizationId");
 
-                    b.ToTable("Lecturers");
+                    b.ToTable("Lecturers", (string)null);
                 });
 
             modelBuilder.Entity("Core.Models.Listener", b =>
                 {
                     b.HasBaseType("Core.Models.AbstractUser");
 
-                    b.ToTable("Listeners");
+                    b.ToTable("Listeners", (string)null);
                 });
 
             modelBuilder.Entity("Core.Models.Answer", b =>

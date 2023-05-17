@@ -24,14 +24,24 @@ public class CoursesController : ControllerBase
         _userService = userService;
     }
     
-    [Microsoft.AspNetCore.Authorization.AllowAnonymous]
-    [Microsoft.AspNetCore.Mvc.HttpGet]
-    [Microsoft.AspNetCore.Mvc.Route("all")]
+    [AllowAnonymous]
+    [HttpGet]
+    [Route("all")]
     public async Task<ActionResult> GetAllCourses()
     {
         return await Task.Run(() =>
         {
-            var courses = _dbContext.Courses.ToList();
+            var courses = _dbContext.Courses
+                .Include(c => c.Modules)
+                .Include(c => c.Lecturer)
+                .ThenInclude(l => l.Organization)
+                .ToList();
+
+            if(courses != null)
+            {
+                foreach(var course in courses)
+                    course.RemoveCycles();
+            }
 
             return Ok(new Response<List<Course>>(OperationResult.OK, courses, "Courses load successful"));
         });
@@ -45,8 +55,13 @@ public class CoursesController : ControllerBase
         return await Task.Run(() =>
         {
             var course = _dbContext.Courses
-                .Include(c => c.Lecturer)
                 .Include(c => c.Modules)
+                .ThenInclude(m => m.Test)
+                .ThenInclude(t => t.Questions)
+                .Include(c => c.Modules)
+                .ThenInclude(m => m.ContentContainers)
+                .Include(c => c.Lecturer)
+                .ThenInclude(l => l.Organization)
                 .FirstOrDefault(c => c.Id == id);
 
             if (course == null)
@@ -60,7 +75,7 @@ public class CoursesController : ControllerBase
     }
 
     [HttpGet]
-    [Route("authorize/{courseId:int}")]
+    [Route("authorize/{courseId}")]
     public async Task<ActionResult> IsCourseAcquired(string courseId)
     {
         var user = _auth.GetCookieAuthInfo();
@@ -93,5 +108,28 @@ public class CoursesController : ControllerBase
         course.RemoveCycles();
 
         return Ok(new Response<Course>(OperationResult.OK, course, "Course added successfully"));
+    }
+
+    [HttpPost]
+    [Route("enroll/{courseId}")]
+    public async Task<ActionResult> Enroll(string courseId)
+    {
+        var user = _auth.GetCookieAuthInfo();
+
+        if (user.Email == null)
+            return Unauthorized(new { error = "Not authenticated" });
+        // return Ok(new Response<bool>(OperationResult.ERROR, false, "not authenticated"));
+
+        var subscription = new Subscription()
+        {
+            IsActive = true,
+            Listener = _dbContext.Listeners.FirstOrDefault(l => l.Email == user.Email),
+            Course = _dbContext.Courses.FirstOrDefault(c => c.Id == courseId)
+        };
+        subscription.InitializeEntity();
+
+        await _dbContext.AddAsync(subscription);
+
+        return Ok(new Response<bool>(OperationResult.OK));
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Core.Models;
@@ -9,19 +10,18 @@ namespace Core.Models;
 public class CourseModule
 {
     public string Id { get; set; }
+    public byte Position { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
-    public TimeSpan Estimate { get; set; }
+    public byte Estimate { get; set; }
     public Test? Test { get; set; }
-    public Course Course { get; set; }
+    public string CourseId { get; set; }
+    [JsonIgnore] public Course? Course { get; set; }
     public List<ContentContainer> ContentContainers { get; set; }
     public void RemoveCycles()
     {
         if (Test != null)
-            Test.Module = null;
-
-        if(Course != null)
-            Course.Modules = null;
+            Test.RemoveCycles();
 
         if (ContentContainers != null)
         {

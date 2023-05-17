@@ -166,9 +166,10 @@ namespace DL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(255)", nullable: false),
+                    Position = table.Column<byte>(type: "tinyint unsigned", nullable: false),
                     Name = table.Column<string>(type: "longtext", nullable: false),
                     Description = table.Column<string>(type: "longtext", nullable: false),
-                    Estimate = table.Column<TimeSpan>(type: "time(6)", nullable: false),
+                    Estimate = table.Column<byte>(type: "tinyint unsigned", nullable: false),
                     CourseId = table.Column<string>(type: "varchar(255)", nullable: false)
                 },
                 constraints: table =>
