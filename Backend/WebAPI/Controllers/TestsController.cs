@@ -26,7 +26,7 @@ public class TestsController : ControllerBase
 
     [AllowAnonymous]
     [HttpGet]
-    [Route("{id:int}")]
+    [Route("{id}")]
     public async Task<ActionResult> GetTest(string id)
     {
         return await Task.Run(() =>
