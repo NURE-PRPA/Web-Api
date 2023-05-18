@@ -46,7 +46,40 @@ public class CoursesController : ControllerBase
             return Ok(new Response<List<Course>>(OperationResult.OK, courses, "Courses load successful"));
         });
     }
-    
+
+    [HttpGet]
+    [Route("my")]
+    public async Task<ActionResult> GetMyCourses()
+    {
+        var user = _auth.GetCookieAuthInfo();
+
+        if (user.Email == null)
+            return Unauthorized(new { error = "Not authenticated" });
+
+        //var courses = _dbContext.Courses
+        //    .Include(c => c.Modules)
+        //    .Include(c => c.Lecturer)
+        //    .ThenInclude(l => l.Organization)                
+        //    .ToList();
+
+        var courses = _dbContext.Subscriptions
+            .Include(s => s.Course)
+            .ThenInclude(c => c.Modules)
+            .Include(s => s.Course)
+            .ThenInclude(c => c.Lecturer)
+            .ThenInclude(l => l.Organization)
+            .Select(s => s.Course)
+            .ToList();
+
+        if (courses != null)
+        {
+            foreach (var course in courses)
+                course.RemoveCycles();
+        }
+
+        return Ok(new Response<List<Course>>(OperationResult.OK, courses, "Courses load successful"));
+    }
+
     [AllowAnonymous]
     [HttpGet]
     [Route("{id}")]
@@ -120,16 +153,27 @@ public class CoursesController : ControllerBase
             return Unauthorized(new { error = "Not authenticated" });
         // return Ok(new Response<bool>(OperationResult.ERROR, false, "not authenticated"));
 
-        var subscription = new Subscription()
+        var checkSubsctiption = _dbContext.Subscriptions
+            .Include(s => s.Course)
+            .Include(s => s.Listener)
+            .FirstOrDefault(s => s.Course.Id == courseId && s.Listener.Email == user.Email) != null;
+
+        if (checkSubsctiption)
         {
-            IsActive = true,
-            Listener = _dbContext.Listeners.FirstOrDefault(l => l.Email == user.Email),
-            Course = _dbContext.Courses.FirstOrDefault(c => c.Id == courseId)
-        };
-        subscription.InitializeEntity();
+            var subscription = new Subscription()
+            {
+                IsActive = true,
+                Listener = _dbContext.Listeners.FirstOrDefault(l => l.Email == user.Email),
+                Course = _dbContext.Courses.FirstOrDefault(c => c.Id == courseId)
+            };
+            subscription.InitializeEntity();
 
-        await _dbContext.AddAsync(subscription);
+            await _dbContext.AddAsync(subscription);
+            _dbContext.SaveChanges();
 
-        return Ok(new Response<bool>(OperationResult.OK));
+            return Ok(new Response<bool>(OperationResult.OK));
+        }
+
+        return Ok(new Response<bool>(OperationResult.ERROR));
     }
 }

@@ -29,16 +29,16 @@ public class AuthService : IAuthService
         // }
         
         AbstractUser dbUser = await _userService.ReadUser(user);
-
-        if(!isGoogle && dbUser.Password != user.Password)
-        {
-            return "Wrong password";
-        }
-
-        user.Password = dbUser.Password;
         
         if (dbUser != null)
         {
+            if (!isGoogle && dbUser.Password != user.Password)
+            {
+                return "Wrong password";
+            }
+
+            user.Password = dbUser.Password;
+
             ClaimsIdentity identity = _identityService.GetIdentity(dbUser);
             
             await _ctx.SignInAsync(new ClaimsPrincipal(identity), new AuthenticationProperties()
