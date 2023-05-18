@@ -39,6 +39,7 @@ builder.Services.AddDbContext<QuantEdDbContext>(options => options.UseMySQL(conn
 builder.Services.AddScoped<IIdentityService, IdentityService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IUserAttemptService, UserAttemptService>();
 
 builder.Services.AddEndpointsApiExplorer();
 // builder.Services.AddSwaggerGen();

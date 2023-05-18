@@ -18,4 +18,8 @@ public class Certificate
         Id = Guid.NewGuid().ToString();
         Date = DateTime.Now;
     }
+    public void RemoveCycles()
+    {
+        Subscription.RemoveCycles();
+    }
 }

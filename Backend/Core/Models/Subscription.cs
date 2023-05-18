@@ -24,4 +24,10 @@ public class Subscription
         Id = Guid.NewGuid().ToString();
         Date = DateTime.Now;
     }
+    public void RemoveCycles()
+    {
+        Course.Subscriptions = null;
+        Listener.Subscriptions = null;
+        Certificate = null;
+    }
 }

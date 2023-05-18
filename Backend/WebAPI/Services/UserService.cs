@@ -27,16 +27,15 @@ public class UserService : IUserService
         if (user == null)
             return null;
         
-        if (user is Listener)
-        {
-            return await _dbContext.Listeners.FirstOrDefaultAsync(u => u.Email == user.Email);
-        }
-        else
-        {
-            return await _dbContext.Lecturers
+        var listener = await _dbContext.Listeners.FirstOrDefaultAsync(u => u.Email == user.Email);
+        var lecturer = await _dbContext.Lecturers
                 .Include(u => u.Organization)
                 .FirstOrDefaultAsync(u => u.Email == user.Email);
-        }
+
+        if (listener != null)
+            return listener;
+        
+        return lecturer;
     }
 
     public async Task<AbstractUser> ReadUser(string email, string userType)
@@ -148,11 +147,25 @@ public class UserService : IUserService
         if (string.IsNullOrEmpty(email))
             throw new ArgumentException("Email was not provided");
 
-        return _dbContext.Listeners
-            .Include(u => u.Subscriptions)
-            .ThenInclude(s => s.Course)
-            .FirstOrDefault(l => l.Email == email)
-            .Subscriptions;
+        // To do: check user type
+
+        //var userType = _authService.GetCookieAuthInfo().UserType;
+
+        //if (userType == "lecturer")
+        //    return null;
+
+        return _dbContext.Subscriptions
+            .Include(s => s.Course)
+            .Include(s => s.Listener)
+            .Where(s => s.Listener.Email == email)
+            .Select(s => s)
+            .ToList();
+        
+        //return _dbContext.Listeners
+        //    .Include(u => u.Subscriptions)
+        //    .ThenInclude(s => s.Course)
+        //    .FirstOrDefault(l => l.Email == email)
+        //    .Subscriptions;
     }
 
     public IQueryable<List<Course>> GetLecturerCourses(string email)

@@ -21,7 +21,7 @@ public class AuthService : IAuthService
         this._userService = userService;
         this._identityService = identityService;
     }
-    public async Task<string> Login(AbstractUser user, bool isGoogle)
+    public async Task<string> Login(AbstractUser user, bool isGoogle = false)
     {
         // if (IsAuthenticated())
         // {

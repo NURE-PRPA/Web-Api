@@ -36,28 +36,36 @@ public class AuthController : ControllerBase
     [AllowAnonymous]
     [HttpPost]
     [Route("listener/register/{type:alpha?}")]
-    public async Task<ActionResult<string>> Register([FromBody] Listener user, string type)
+    public async Task<ActionResult> Register([FromBody] Listener user, string type)
     {
         var isGoogle = type == "google";
 
         if (user == null)
             return BadRequest("Empty user provided!");
 
-        return Ok(await _auth.Register(user, isGoogle));
+        var result = await _auth.Register(user, isGoogle);
+        if(result == "Register success")
+            return Ok(new Response<object>(OperationResult.OK, result));
+        else
+            return Ok(new Response<object>(OperationResult.ERROR, result));
     }
 
     // POST api/auth/register
     [AllowAnonymous]
     [HttpPost]
     [Route("lecturer/register/{type:alpha?}")]
-    public async Task<ActionResult<string>> Register([FromBody] Lecturer user, string type)
+    public async Task<ActionResult> Register([FromBody] Lecturer user, string type)
     {
         var isGoogle = type == "google";
 
         if (user == null)
             return BadRequest("Empty user provided!");
 
-        return Ok(await _auth.Register(user, isGoogle));
+        var result = await _auth.Register(user, isGoogle);
+        if (result == "Register success")
+            return Ok(new Response<object>(OperationResult.OK, result));
+        else
+            return Ok(new Response<object>(OperationResult.ERROR, result));
     }
 
     // POST api/auth/login
@@ -82,8 +90,8 @@ public class AuthController : ControllerBase
                 eb.Append("Email was not provided:");
             if (string.IsNullOrEmpty(loginUser.Password))
                 eb.Append("Password was not provided:");
-            if (string.IsNullOrEmpty(loginUser.UserType))
-                eb.Append("User type was not provided:");
+            //if (string.IsNullOrEmpty(loginUser.UserType))
+            //    eb.Append("User type was not provided:");
         //}
 
         if (eb.Length > 0)
@@ -93,25 +101,29 @@ public class AuthController : ControllerBase
 
         if (eb.Length > 0)
             return BadRequest(error: eb.ToString());
-        
-        AbstractUser user = new AbstractUser();
-        
-        if(loginUser.UserType == "listener")
+
+        AbstractUser user = new AbstractUser()
         {
-            user = new Listener()
-            {
-                Email = loginUser.Email,
-                Password = loginUser.Password
-            };
-        }
-        else
-        {
-            user = new Lecturer()
-            {
-                Email = loginUser.Email,
-                Password = loginUser.Password
-            };
-        }
+            Email = loginUser.Email,
+            Password = loginUser.Password
+        };
+        
+        //if(loginUser.UserType == "listener")
+        //{
+        //    user = new Listener()
+        //    {
+        //        Email = loginUser.Email,
+        //        Password = loginUser.Password
+        //    };
+        //}
+        //else
+        //{
+        //    user = new Lecturer()
+        //    {
+        //        Email = loginUser.Email,
+        //        Password = loginUser.Password
+        //    };
+        //}
 
         var operationResult = await _auth.Login(user, false);
 

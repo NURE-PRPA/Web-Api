@@ -31,7 +31,7 @@ public class CoursesController : ControllerBase
     [Route("all")]
     public async Task<ActionResult> GetAllCourses()
     {
-        return await Task.Run(() =>
+        return await Task.Run(async () =>
         {
             var courses = _dbContext.Courses
                 .Include(c => c.Modules)
@@ -41,8 +41,14 @@ public class CoursesController : ControllerBase
 
             if(courses != null)
             {
-                foreach(var course in courses)
+                foreach (var course in courses)
+                {
+                    course.IsAcquired = await IsCourseAcquired(course.Id);
+                }
+                foreach (var course in courses)
+                {
                     course.RemoveCycles();
+                }
             }
 
             return Ok(new Response<List<Course>>(OperationResult.OK, courses, "Courses load successful"));
@@ -76,7 +82,13 @@ public class CoursesController : ControllerBase
         if (courses != null)
         {
             foreach (var course in courses)
+            {
+                course.IsAcquired = await IsCourseAcquired(course.Id);
+            }
+            foreach (var course in courses)
+            {
                 course.RemoveCycles();
+            }
         }
 
         return Ok(new Response<List<Course>>(OperationResult.OK, courses, "Courses load successful"));
@@ -103,13 +115,32 @@ public class CoursesController : ControllerBase
                 return Ok(new Response<object>(OperationResult.ERROR, "Course load error"));
             else
             {
-                foreach(var module in course.Modules)
+                var attemptCount = 0;
+                var testCount = 0;
+
+                foreach (var module in course.Modules)
                 {
-                    module.Test.UserAttempts = new List<UserAttempt>
+                    if(module.Test != null)
                     {
-                        await _userAttemptService.GetAttempt(module.Test.Id)
-                    };
+                        var userAttempt = await _userAttemptService.GetAttempt(module.Test.Id);
+                        if(userAttempt != null)
+                        {
+                            module.Test.UserAttempts = new List<UserAttempt>
+                            {
+                                userAttempt
+                            };
+                            attemptCount++;
+                        }
+                        testCount++;
+                    }
                 }
+
+                if (testCount == 0)
+                    course.Progress = 0;
+                else
+                    course.Progress = (byte)Math.Ceiling((double)((attemptCount / testCount) * 100));
+
+                course.IsAcquired = await IsCourseAcquired(course.Id);
 
                 course.RemoveCycles();
                 return Ok(new Response<Course>(OperationResult.OK, course, "Course load successful"));
@@ -117,22 +148,22 @@ public class CoursesController : ControllerBase
         });
     }
 
-    [HttpGet]
-    [Route("authorize/{courseId}")]
-    public async Task<ActionResult> IsCourseAcquired(string courseId)
-    {
-        var user = _auth.GetCookieAuthInfo();
+    //[HttpGet]
+    //[Route("authorize/{courseId}")]
+    //public async Task<ActionResult> IsCourseAcquired(string courseId)
+    //{
+    //    var user = _auth.GetCookieAuthInfo();
 
-        if (user.Email == null)
-            return Unauthorized(new { error = "Not authenticated" });
-            // return Ok(new Response<bool>(OperationResult.ERROR, false, "not authenticated"));
+    //    if (user.Email == null)
+    //        return Unauthorized(new { error = "Not authenticated" });
+    //        // return Ok(new Response<bool>(OperationResult.ERROR, false, "not authenticated"));
         
-        var isAuthorized = _userService
-            .GetListenerSubscriptions(user.Email)
-            .FirstOrDefault(s => s.Course.Id == courseId) != null;
+    //    var isAuthorized = _userService
+    //        .GetListenerSubscriptions(user.Email)
+    //        .FirstOrDefault(s => s.Course.Id == courseId) != null;
         
-        return Ok(new Response<bool>(OperationResult.OK, isAuthorized));
-    }
+    //    return Ok(new Response<bool>(OperationResult.OK, isAuthorized));
+    //}
 
     [HttpPost]
     [Route("add")]
@@ -185,5 +216,24 @@ public class CoursesController : ControllerBase
         }
 
         return Ok(new Response<bool>(OperationResult.ERROR));
+    }
+
+    public async Task<bool> IsCourseAcquired(string courseId)
+    {
+        var user = _auth.GetCookieAuthInfo();
+
+        if (user.Email == null)
+            return false;
+        // return Ok(new Response<bool>(OperationResult.ERROR, false, "not authenticated"));
+
+        var subscriptions = _userService
+            .GetListenerSubscriptions(user.Email);
+
+        var isAuthorized = false;
+
+        if (subscriptions != null && subscriptions.Count != 0)
+            isAuthorized = subscriptions.FirstOrDefault(s => s.Course.Id == courseId) != null;
+
+        return isAuthorized;
     }
 }

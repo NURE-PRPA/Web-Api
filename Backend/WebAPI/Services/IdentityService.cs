@@ -14,10 +14,12 @@ public class IdentityService : IIdentityService
             new Claim("password", user.Password)
         };
 
-        if (user is Listener) 
-            claims.Add(new Claim("userType", "listener"));
-        else 
-            claims.Add(new Claim("userType", "lecturer"));
+        if (user is Listener)
+            user.UserType = "listener";
+        else
+            user.UserType = "lecturer";
+
+        claims.Add(new Claim("userType", user.UserType));
 
         return new ClaimsIdentity(claims, "cookie");
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,8 @@ public class Course
     public Lecturer Lecturer { get; set; }
     public List<CourseModule> Modules { get; set; }
     public List<Subscription> Subscriptions { get; set; }
+    [NotMapped] public byte Progress { get; set; }
+    [NotMapped] public bool IsAcquired { get; set; }
     public void RemoveCycles()
     {
         if(Lecturer != null)
@@ -33,7 +36,10 @@ public class Course
         if (Subscriptions != null)
         {
             foreach (var subscription in Subscriptions)
+            {
                 subscription.Course = null;
+                subscription.Listener = null;
+            }
         }
     }
     public void InitializeEntity()

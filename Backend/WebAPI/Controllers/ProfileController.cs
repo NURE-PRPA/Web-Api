@@ -42,9 +42,17 @@ public class ProfileController : ControllerBase
             return NotFound(new Response<object>(OperationResult.OK, "user not found"));
 
         if (userType == "listener")
+        {
+            user.UserType = userType;
             return Ok(new Response<Listener>(OperationResult.OK, user as Listener));
+        }
         else
+        {
+            var lecturer = user as Lecturer;
+            lecturer.RemoveCycles();
+            lecturer.UserType = userType;
             return Ok(new Response<Lecturer>(OperationResult.OK, user as Lecturer));
+        }
     }
     
     [HttpGet]

@@ -23,16 +23,4 @@ public class AdminController : ControllerBase
         _auth = auth;
         _userService = userService;
     }
-
-    [HttpPost]
-    [Route("add/organization")]
-    public async Task<ActionResult> AddOrganization(Organization organization)
-    {
-        organization.InitializeEntity();
-
-        await _dbContext.Organizations.AddAsync(organization);
-        await _dbContext.SaveChangesAsync();
-
-        return Ok();
-    }
 }

@@ -19,6 +19,7 @@ public class AbstractUser
     public DateTime Date { get; set; }
     public long GoogleId { get; set; }
     public string Password { get; set; }
+    [NotMapped] public string UserType { get; set; }
     public void InitializeEntity()
     {
         Id = Guid.NewGuid().ToString();

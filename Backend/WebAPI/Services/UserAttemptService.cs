@@ -38,10 +38,7 @@ public class UserAttemptService : IUserAttemptService
         if (subscription == null)
             return null;
 
-        // Temporary implementations
-        var userAttempts = new List<UserAttempt>();
-
-        var userAttempt = userAttempts.FirstOrDefault(a => a.TestId == testId && a.SubscriptionId == subscription.Id);
+        var userAttempt = _dbContext.UserAttempts.FirstOrDefault(a => a.TestId == testId && a.SubscriptionId == subscription.Id);
 
         return userAttempt;
     }
