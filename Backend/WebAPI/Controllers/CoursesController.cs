@@ -16,12 +16,14 @@ public class CoursesController : ControllerBase
     private QuantEdDbContext _dbContext;
     private IAuthService _auth;
     private IUserService _userService;
+    private IUserAttemptService _userAttemptService;
     
-    public CoursesController(QuantEdDbContext dbContext, IAuthService auth, IUserService userService)
+    public CoursesController(QuantEdDbContext dbContext, IAuthService auth, IUserService userService, IUserAttemptService userAttemptService)
     {
         _dbContext = dbContext;
         _auth = auth;
         _userService = userService;
+        _userAttemptService = userAttemptService;
     }
     
     [AllowAnonymous]
@@ -85,7 +87,7 @@ public class CoursesController : ControllerBase
     [Route("{id}")]
     public async Task<ActionResult> GetCourse(string id)
     {
-        return await Task.Run(() =>
+        return await Task.Run(async () =>
         {
             var course = _dbContext.Courses
                 .Include(c => c.Modules)
@@ -101,6 +103,14 @@ public class CoursesController : ControllerBase
                 return Ok(new Response<object>(OperationResult.ERROR, "Course load error"));
             else
             {
+                foreach(var module in course.Modules)
+                {
+                    module.Test.UserAttempts = new List<UserAttempt>
+                    {
+                        await _userAttemptService.GetAttempt(module.Test.Id)
+                    };
+                }
+
                 course.RemoveCycles();
                 return Ok(new Response<Course>(OperationResult.OK, course, "Course load successful"));
             }

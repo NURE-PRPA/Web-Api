@@ -16,9 +16,13 @@ public class UserAttempt
     public string SubscriptionId { get; set; }
     public string TestId { get; set; }
     public DateTime TimeStamp { get; set; }
-    
-    [JsonIgnore] public Subscription? Subscription { get; set; }
-    [JsonIgnore] public Test? Test { get; set; }
+
+    [NotMapped]
+    [JsonIgnore]
+    public Subscription? Subscription { get; set; }
+    [NotMapped]
+    [JsonIgnore]
+    public Test? Test { get; set; }
     public void InitializeEntity()
     {
         Id = Guid.NewGuid().ToString();

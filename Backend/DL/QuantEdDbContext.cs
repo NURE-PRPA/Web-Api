@@ -21,6 +21,7 @@ namespace DL
         public DbSet<Question> Questions { get; set;}
         public DbSet<Subscription> Subscriptions { get; set;}
         public DbSet<Test> Tests { get; set;}
+        public DbSet<UserAttempt> UserAttempts { get; set; }
 
         public QuantEdDbContext()
         {
