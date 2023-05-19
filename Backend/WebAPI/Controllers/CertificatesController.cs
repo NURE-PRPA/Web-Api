@@ -94,6 +94,10 @@ public class CertificatesController : ControllerBase
     {
         return await Task.Run(async () =>
         {
+            var user = _auth.GetCookieAuthInfo();
+            if (user.Email == null)
+                return Ok(new Response<object>(OperationResult.ERROR, "Not authenticated"));
+
             var certificate = _dbContext.Certificates
                 .Include(c => c.Subscription)
                 .ThenInclude(s => s.Listener)
@@ -101,7 +105,7 @@ public class CertificatesController : ControllerBase
                 .ThenInclude(s => s.Course)
                 .ThenInclude(c => c.Lecturer)
                 .ThenInclude(l => l.Organization)
-                .FirstOrDefault(c => c.Subscription.Course.Id == id);
+                .FirstOrDefault(c => c.Subscription.Course.Id == id && c.Subscription.Listener.Email == user.Email);
 
             if (certificate == null)
                 return Ok(new Response<object>(OperationResult.ERROR, "Certificate load error"));

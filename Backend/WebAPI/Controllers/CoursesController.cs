@@ -71,11 +71,13 @@ public class CoursesController : ControllerBase
         //    .ToList();
 
         var courses = _dbContext.Subscriptions
+            .Include(s => s.Listener)
             .Include(s => s.Course)
             .ThenInclude(c => c.Modules)
             .Include(s => s.Course)
             .ThenInclude(c => c.Lecturer)
             .ThenInclude(l => l.Organization)
+            .Where(s => s.Listener.Email == user.Email)
             .Select(s => s.Course)
             .ToList();
 
@@ -197,7 +199,7 @@ public class CoursesController : ControllerBase
         var checkSubsctiption = _dbContext.Subscriptions
             .Include(s => s.Course)
             .Include(s => s.Listener)
-            .FirstOrDefault(s => s.Course.Id == courseId && s.Listener.Email == user.Email) != null;
+            .FirstOrDefault(s => s.Course.Id == courseId && s.Listener.Email == user.Email) == null;
 
         if (checkSubsctiption)
         {
