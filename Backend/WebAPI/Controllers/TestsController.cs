@@ -46,22 +46,23 @@ public class TestsController : ControllerBase
             }
         });
     }
-    [HttpGet]
-    [Route("add")]
-    public async Task<ActionResult> AddTest(Test test)
-    {
-        if (test == null)
-            return Ok(new Response<object>(OperationResult.ERROR, "Empty test"));
 
-        test.InitializeEntity();
+    //[HttpPost]
+    //[Route("add")]
+    //public async Task<ActionResult> AddTest(Test test)
+    //{
+    //    if (test == null)
+    //        return Ok(new Response<object>(OperationResult.ERROR, "Empty test"));
 
-        test.Module = _dbContext.Modules.FirstOrDefault(m => m.Id == test.Module.Id);
+    //    test.InitializeEntity();
 
-        await _dbContext.AddAsync(test);
-        await _dbContext.SaveChangesAsync();
+    //    test.Module = _dbContext.Modules.FirstOrDefault(m => m.Id == test.Module.Id);
 
-        test.RemoveCycles();
+    //    await _dbContext.AddAsync(test);
+    //    await _dbContext.SaveChangesAsync();
 
-        return Ok(new Response<Test>(OperationResult.OK, test, "Test added successfully"));
-    }
+    //    test.RemoveCycles();
+
+    //    return Ok(new Response<Test>(OperationResult.OK, test, "Test added successfully"));
+    //}
 }

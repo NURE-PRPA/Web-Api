@@ -5,5 +5,6 @@ namespace WebAPI.Services.Abstractions;
 public interface IUserAttemptService
 {
     public Task<UserAttempt> GetAttempt(string testId);
-    public Task AddAttempt(string testId, byte mark);
+    public Task<List<UserAttempt>> GetAttempts(string courseId);
+    public Task<bool> AddAttempt(TestResult result);
 }
