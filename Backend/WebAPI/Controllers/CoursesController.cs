@@ -64,13 +64,11 @@ public class CoursesController : ControllerBase
         if (user.Email == null)
             return Unauthorized(new { error = "Not authenticated" });
 
-        //var courses = _dbContext.Courses
-        //    .Include(c => c.Modules)
-        //    .Include(c => c.Lecturer)
-        //    .ThenInclude(l => l.Organization)                
-        //    .ToList();
+        var courses = new List<Course>();
 
-        var courses = _dbContext.Subscriptions
+        if(user.UserType == "listener")
+        {
+            courses = _dbContext.Subscriptions
             .Include(s => s.Listener)
             .Include(s => s.Course)
             .ThenInclude(c => c.Modules)
@@ -81,12 +79,27 @@ public class CoursesController : ControllerBase
             .Select(s => s.Course)
             .ToList();
 
+            if (courses != null)
+            {
+                foreach (var course in courses)
+                {
+                    course.IsAcquired = await IsCourseAcquired(course.Id);
+                }
+            }
+        }
+        else if(user.UserType == "lecturer")
+        {
+            courses = _dbContext.Courses
+                .Include(c => c.Lecturer)
+                .ThenInclude(l => l.Organization)
+                .Include(c => c.Modules)
+                .Where(c => c.Lecturer.Email == user.Email)
+                .Select(c => c)
+                .ToList();
+        }
+
         if (courses != null)
         {
-            foreach (var course in courses)
-            {
-                course.IsAcquired = await IsCourseAcquired(course.Id);
-            }
             foreach (var course in courses)
             {
                 course.RemoveCycles();
