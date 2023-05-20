@@ -14,14 +14,10 @@ namespace WebAPI.Controllers;
 public class TestsController : ControllerBase
 {
     private QuantEdDbContext _dbContext;
-    private IAuthService _auth;
-    private IUserService _userService;
     
-    public TestsController(QuantEdDbContext dbContext, IAuthService auth, IUserService userService)
+    public TestsController(QuantEdDbContext dbContext)
     {
         _dbContext = dbContext;
-        _auth = auth;
-        _userService = userService;
     }
 
     [AllowAnonymous]

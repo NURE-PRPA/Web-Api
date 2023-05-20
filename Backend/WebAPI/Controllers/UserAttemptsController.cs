@@ -14,16 +14,10 @@ namespace WebAPI.Controllers;
 [Route("api/attempts")]
 public class UserAttemptsController : ControllerBase
 {
-    private QuantEdDbContext _dbContext;
-    private IAuthService _auth;
-    private IUserService _userService;
     private IUserAttemptService _userAttemptService;
     
-    public UserAttemptsController(QuantEdDbContext dbContext, IAuthService auth, IUserService userService, IUserAttemptService userAttemptService)
+    public UserAttemptsController(IUserAttemptService userAttemptService)
     {
-        _dbContext = dbContext;
-        _auth = auth;
-        _userService = userService;
         _userAttemptService = userAttemptService;
     }
 
