@@ -20,7 +20,6 @@ public class ProfileController : ControllerBase
         _auth = authService;
     }
     
-    
     [HttpGet]
     [Route("info")]
     public async Task<ActionResult> GetInfo()
@@ -83,5 +82,17 @@ public class ProfileController : ControllerBase
 
             return Ok(courses);
         }
+    }
+
+    [HttpGet]
+    [Route("type")]
+    public async Task<ActionResult> GetUserType()
+    {
+        var user = _auth.GetCookieAuthInfo();
+
+        if (user.Email == null)
+            return Unauthorized(new { error = "Not authenticated" });
+
+        return Ok(new Response<object>(OperationResult.OK, user.UserType));
     }
 }
