@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using WebAPI.Services.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Mysqlx;
+using Core.Enums;
 
 namespace WebAPI.Controllers;
 
@@ -43,22 +44,43 @@ public class TestsController : ControllerBase
         });
     }
 
-    //[HttpPost]
-    //[Route("add")]
-    //public async Task<ActionResult> AddTest(Test test)
-    //{
-    //    if (test == null)
-    //        return Ok(new Response<object>(OperationResult.ERROR, "Empty test"));
+    [HttpPost]
+    [Route("add")]
+    public async Task<ActionResult> AddTest(Test test)
+    {
+        if (test == null)
+            return Ok(new Response<object>(OperationResult.ERROR, "Empty test"));
 
-    //    test.InitializeEntity();
+        test.InitializeEntity();
 
-    //    test.Module = _dbContext.Modules.FirstOrDefault(m => m.Id == test.Module.Id);
+        test.Module = _dbContext.Modules.FirstOrDefault(m => m.Id == test.ModuleId);
 
-    //    await _dbContext.AddAsync(test);
-    //    await _dbContext.SaveChangesAsync();
+        if(test.Questions != null)
+        {
+            foreach (var question in test.Questions)
+            {
+                var correctAnswersCount = 0;
+                if (question.Answers != null)
+                {
+                    foreach (var answer in question.Answers)
+                    {
+                        if (answer.IsCorrect)
+                            correctAnswersCount++;
+                    }
+                }
 
-    //    test.RemoveCycles();
+                if (correctAnswersCount == 1)
+                    question.Type = QuestionType.Single;
+                else
+                    question.Type = QuestionType.Multiple;
+            }
+        }
 
-    //    return Ok(new Response<Test>(OperationResult.OK, test, "Test added successfully"));
-    //}
+        await _dbContext.AddAsync(test);
+        await _dbContext.SaveChangesAsync();
+
+        test.RemoveCycles();
+
+        return Ok(new Response<Test>(OperationResult.OK, test, "Test added successfully"));
+    }
 }

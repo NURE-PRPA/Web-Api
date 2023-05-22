@@ -14,7 +14,7 @@ public class Test
     public string Name { get; set; }
     public byte Duration { get; set; }
     public string ModuleId { get; set; }
-    [JsonIgnore]public CourseModule Module { get; set; }
+    [JsonIgnore]public CourseModule? Module { get; set; }
     public List<Question> Questions { get; set; }
     
     [NotMapped] public List<UserAttempt> UserAttempts { get; set; }

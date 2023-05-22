@@ -22,7 +22,7 @@ public class ModulesController : ControllerBase
 
     [AllowAnonymous]
     [HttpGet]
-    [Route("{id:int}")]
+    [Route("{id}")]
     public async Task<ActionResult> GetModule(string id)
     {
         return await Task.Run(() =>
@@ -59,6 +59,6 @@ public class ModulesController : ControllerBase
 
         module.RemoveCycles();
 
-        return Ok(new Response<CourseModule>(OperationResult.OK, module, "Course added successfully"));
+        return Ok(new Response<CourseModule>(OperationResult.OK, module, "Module added successfully"));
     }
 }

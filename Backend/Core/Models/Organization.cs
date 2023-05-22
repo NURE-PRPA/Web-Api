@@ -13,7 +13,7 @@ public class Organization
     public string Id { get; set; }
     public string Name { get; set; }
     public OrganizationType Type { get; set; }
-    public List<Lecturer> Lecturers { get; set; }
+    public List<Lecturer>? Lecturers { get; set; }
     public void InitializeEntity()
     {
         Id = Guid.NewGuid().ToString();

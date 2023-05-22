@@ -184,12 +184,17 @@ public class CoursesController : ControllerBase
     [Route("add")]
     public async Task<ActionResult> AddCourse(Course course)
     {
+        var user = _auth.GetCookieAuthInfo();
+
+        if (user.Email == null)
+            return Unauthorized(new { error = "Not authenticated" });
+
         if (course == null)
             return Ok(new Response<object>(OperationResult.ERROR, "Empty course"));
 
         course.InitializeEntity();
 
-        course.Lecturer = _dbContext.Lecturers.FirstOrDefault(l => l.Id == course.Lecturer.Id);
+        course.Lecturer = _dbContext.Lecturers.FirstOrDefault(l => l.Email == user.Email);
 
         await _dbContext.AddAsync(course);
         await _dbContext.SaveChangesAsync();
